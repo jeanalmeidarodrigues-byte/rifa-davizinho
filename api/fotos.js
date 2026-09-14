@@ -2,6 +2,16 @@ const { kv } = require("./_lib/kv");
 const { checkAdminPassword } = require("./_lib/auth");
 
 const KEY = "fotos";
+const CONFIG_KEY = "config";
+const DEFAULT_QUANTIDADE = 100;
+
+// Busca a quantidade de números da rifa configurada pelo organizador (padrão: 100 => 00 a 99).
+async function getQuantidade() {
+  const valor = await kv.hget(CONFIG_KEY, "quantidade");
+  const qtd = parseInt(valor, 10);
+  if (!qtd || qtd < 1 || qtd > 100) return DEFAULT_QUANTIDADE;
+  return qtd;
+}
 
 module.exports = async (req, res) => {
   try {
@@ -18,7 +28,8 @@ module.exports = async (req, res) => {
       }
 
       const num = parseInt(numero, 10);
-      if (!num || num < 1 || num > 100 || !dataUrl) {
+      const quantidade = await getQuantidade();
+      if (isNaN(num) || num < 0 || num >= quantidade || !dataUrl) {
         return res.status(400).json({ error: "Dados inválidos." });
       }
 
@@ -34,7 +45,8 @@ module.exports = async (req, res) => {
       }
 
       const num = parseInt(numero, 10);
-      if (!num || num < 1 || num > 100) {
+      const quantidade = await getQuantidade();
+      if (isNaN(num) || num < 0 || num >= quantidade) {
         return res.status(400).json({ error: "Número inválido." });
       }
 
