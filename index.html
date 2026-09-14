@@ -950,7 +950,7 @@ footer {
         </div>
       </div>
 
-      <div class="notice">
+      <div class="notice" id="loteriaNotice">
         🎲 <strong>Sorteio pela Loteria Federal:</strong> o resultado da rifa será apurado com base
         no resultado oficial da Loteria Federal, garantindo total transparência na conclusão da campanha.
         Será considerado o número formado pelos <strong>dois primeiros dígitos do 1º prêmio</strong> da
@@ -1036,7 +1036,7 @@ footer {
   </div>
 
   <div class="notice">
-    <strong>Importante:</strong> a reserva fica marcada neste aparelho por 10 minutos.
+    <strong>Importante:</strong> a reserva fica marcada neste aparelho por 24 horas.
     Para confirmar de verdade, envie o comprovante do PIX pelo WhatsApp do organizador.
     O controle final dos números pagos deve ser validado pelo Davi.
   </div>
@@ -1118,6 +1118,24 @@ footer {
       </div>
 
       <div class="admin-edit-section">
+        <h4>📜 Regras da rifa</h4>
+        <p class="admin-note" style="margin-top:0;">Escreva uma regra por linha. Cada linha vira um item da lista de regras. Pode usar &lt;strong&gt;texto&lt;/strong&gt; para negrito.</p>
+        <div class="admin-actions" style="flex-direction:column; align-items:flex-start; gap:10px;">
+          <textarea id="configRegrasInput" class="search-input" rows="8" style="width:100%; min-width:0;" placeholder="Uma regra por linha..."></textarea>
+          <button class="btn-blue" onclick="salvarRegras()">Salvar regras</button>
+        </div>
+      </div>
+
+      <div class="admin-edit-section">
+        <h4>🎲 Texto do sorteio pela Loteria Federal</h4>
+        <p class="admin-note" style="margin-top:0;">Este texto aparece no aviso destacado da página. Pode usar &lt;strong&gt;texto&lt;/strong&gt; para negrito.</p>
+        <div class="admin-actions" style="flex-direction:column; align-items:flex-start; gap:10px;">
+          <textarea id="configLoteriaInput" class="search-input" rows="6" style="width:100%; min-width:0;" placeholder="Texto sobre o sorteio pela Loteria Federal..."></textarea>
+          <button class="btn-blue" onclick="salvarLoteria()">Salvar texto do sorteio</button>
+        </div>
+      </div>
+
+      <div class="admin-edit-section">
         <h4>📷 Foto de um número da rifa</h4>
         <div class="admin-actions">
           <input type="number" id="fotoNumeroInput" min="1" max="100" placeholder="Número (1-100)" class="search-input" style="min-width:140px;">
@@ -1162,12 +1180,12 @@ footer {
   <div class="modal-content">
     <h3>Regras da Rifa Solidária</h3>
 
-    <ul>
+    <ul id="regrasList">
       <li>Cada número da rifa custa <strong>R$ 10,00</strong>.</li>
       <li>A participação só será confirmada após o envio do comprovante PIX para o WhatsApp do organizador.</li>
       <li>A chave PIX oficial é <strong>+55 11 93389-3607</strong>, em nome de Davi.</li>
       <li>O comprador deve informar nome, WhatsApp e número escolhido.</li>
-      <li>A reserva feita pelo site tem prazo de <strong>10 minutos</strong>. Se o PIX não for confirmado, o número poderá ser liberado.</li>
+      <li>A reserva feita pelo site tem prazo de <strong>24 horas</strong>. Se o PIX não for confirmado, o número poderá ser liberado.</li>
       <li>O controle final dos números pagos será feito pelo organizador.</li>
       <li>O sorteio será realizado com base no resultado da <strong>Loteria Federal</strong>: será vencedor o número formado pelos <strong>dois primeiros dígitos do 1º prêmio</strong> sorteado (ex.: se o 1º prêmio for 54.321, o número da sorte é 54), garantindo total transparência, com conclusão prevista entre <strong>setembro e dezembro de 2026</strong>.</li>
       <li>O número sorteado será divulgado pelo organizador após o sorteio, aqui no site e no WhatsApp.</li>
@@ -1263,6 +1281,21 @@ let configCache = {};
 const DEFAULT_HISTORIA = "O Davizinho sonha em ter um PC Gamer para estudar, fazer seus trabalhos escolares, aprender programação e também se divertir com jogos educativos. Com a sua ajuda, esse sonho pode virar realidade. 🚀";
 const DEFAULT_TITULO = "Rifa Solidária Davizinho";
 const DEFAULT_SUBTITULO = "Participe e ajude a realizar esse sonho";
+
+const DEFAULT_REGRAS_LINHAS = [
+  "Cada número da rifa custa <strong>R$ 10,00</strong>.",
+  "A participação só será confirmada após o envio do comprovante PIX para o WhatsApp do organizador.",
+  "A chave PIX oficial é <strong>+55 11 93389-3607</strong>, em nome de Davi.",
+  "O comprador deve informar nome, WhatsApp e número escolhido.",
+  "A reserva feita pelo site tem prazo de <strong>24 horas</strong>. Se o PIX não for confirmado, o número poderá ser liberado.",
+  "O controle final dos números pagos será feito pelo organizador.",
+  "O sorteio será realizado com base no resultado da <strong>Loteria Federal</strong>: será vencedor o número formado pelos <strong>dois primeiros dígitos do 1º prêmio</strong> sorteado (ex.: se o 1º prêmio for 54.321, o número da sorte é 54), garantindo total transparência, com conclusão prevista entre <strong>setembro e dezembro de 2026</strong>.",
+  "O número sorteado será divulgado pelo organizador após o sorteio, aqui no site e no WhatsApp.",
+  "Ao participar, o comprador declara estar ciente das regras e concorda com as condições da rifa."
+];
+const DEFAULT_REGRAS = DEFAULT_REGRAS_LINHAS.join("\n");
+
+const DEFAULT_LOTERIA = "🎲 <strong>Sorteio pela Loteria Federal:</strong> o resultado da rifa será apurado com base no resultado oficial da Loteria Federal, garantindo total transparência na conclusão da campanha. Será considerado o número formado pelos <strong>dois primeiros dígitos do 1º prêmio</strong> da Loteria Federal (ex.: se o 1º prêmio for 54.321, o número da sorte é <strong>54</strong>). Previsão de encerramento entre <strong>setembro e dezembro de 2026</strong>.";
 
 let currentFilter = "all";
 
@@ -1462,6 +1495,15 @@ function updateAdminView() {
     locked.style.display = "none";
     unlocked.style.display = "block";
     renderAdminTable();
+
+    const regrasInput = document.getElementById("configRegrasInput");
+    if (regrasInput && document.activeElement !== regrasInput) {
+      regrasInput.value = configCache.regras || DEFAULT_REGRAS;
+    }
+    const loteriaInput = document.getElementById("configLoteriaInput");
+    if (loteriaInput && document.activeElement !== loteriaInput) {
+      loteriaInput.value = configCache.loteria || DEFAULT_LOTERIA;
+    }
   } else {
     locked.style.display = "block";
     unlocked.style.display = "none";
@@ -1521,6 +1563,17 @@ function renderConfig() {
   const subtitulo = document.getElementById("siteSubtitulo");
   if (titulo) titulo.textContent = configCache.titulo || DEFAULT_TITULO;
   if (subtitulo) subtitulo.textContent = configCache.subtitulo || DEFAULT_SUBTITULO;
+
+  const loteriaEl = document.getElementById("loteriaNotice");
+  if (loteriaEl) {
+    loteriaEl.innerHTML = configCache.loteria || DEFAULT_LOTERIA;
+  }
+
+  const regrasEl = document.getElementById("regrasList");
+  if (regrasEl) {
+    const linhas = (configCache.regras || DEFAULT_REGRAS).split("\n").map(l => l.trim()).filter(Boolean);
+    regrasEl.innerHTML = linhas.map(l => `<li>${l}</li>`).join("");
+  }
 }
 
 function renderGrid() {
@@ -2283,6 +2336,54 @@ async function salvarConfig() {
     });
     await refreshConfig();
     alert("Título do site atualizado!");
+  } catch (err) {
+    alert("Erro ao salvar: " + err.message);
+  }
+}
+
+async function salvarRegras() {
+  const senha = requireAdmin();
+  if (!senha) return;
+
+  const regras = document.getElementById("configRegrasInput").value.trim();
+
+  if (!regras) {
+    alert("Escreva o texto das regras para salvar.");
+    return;
+  }
+
+  try {
+    await apiRequest("/api/config", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password: senha, regras })
+    });
+    await refreshConfig();
+    alert("Regras da rifa atualizadas!");
+  } catch (err) {
+    alert("Erro ao salvar: " + err.message);
+  }
+}
+
+async function salvarLoteria() {
+  const senha = requireAdmin();
+  if (!senha) return;
+
+  const loteria = document.getElementById("configLoteriaInput").value.trim();
+
+  if (!loteria) {
+    alert("Escreva o texto do sorteio para salvar.");
+    return;
+  }
+
+  try {
+    await apiRequest("/api/config", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password: senha, loteria })
+    });
+    await refreshConfig();
+    alert("Texto do sorteio pela Loteria Federal atualizado!");
   } catch (err) {
     alert("Erro ao salvar: " + err.message);
   }
