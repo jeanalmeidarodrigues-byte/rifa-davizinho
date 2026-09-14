@@ -1,140 +1,46 @@
 const { kv } = require("./_lib/kv");
 const { checkAdminPassword } = require("./_lib/auth");
 
-const HASH_KEY = "reservas";
-const CONFIG_KEY = "config";
-const RESERVATION_TIME = 24 * 60 * 60 * 1000; // 24 horas
-const DEFAULT_QUANTIDADE = 100;
-
-// Senha específica da área de "Marcação" (marcar número como pago / liberar número).
-// Não substitui a senha do organizador: é aceita apenas nas ações de marcar/liberar.
-const MARCACAO_PASSWORD = "DAVI563200";
-
-function isAuthorizedToMark(password) {
-  return checkAdminPassword(password) || password === MARCACAO_PASSWORD;
-}
-
-// Busca a quantidade de números da rifa configurada pelo organizador (padrão: 100 => 00 a 99).
-async function getQuantidade() {
-  const valor = await kv.hget(CONFIG_KEY, "quantidade");
-  const qtd = parseInt(valor, 10);
-  if (!qtd || qtd < 1 || qtd > 100) return DEFAULT_QUANTIDADE;
-  return qtd;
-}
-
-function formatNumber(num) {
-  return String(num).padStart(2, "0");
-}
-
-// Um número é considerado "ocupado" (não disponível para nova reserva) se:
-// - está pago ("sold"); ou
-// - está reservado e a reserva ainda não expirou.
-function isEntryActive(item) {
-  if (!item) return false;
-  if (item.status === "sold") return true;
-  if (item.status === "reserved") {
-    return !item.expiresAt || Date.now() <= item.expiresAt;
-  }
-  return false;
-}
-
-// Remove do banco as reservas temporárias já expiradas (faxina leve a cada leitura).
-async function cleanupExpired(data) {
-  const expiradas = Object.keys(data).filter(num => {
-    const item = data[num];
-    return item && item.status === "reserved" && item.expiresAt && Date.now() > item.expiresAt;
-  });
-
-  if (expiradas.length > 0) {
-    await kv.hdel(HASH_KEY, ...expiradas);
-  }
-
-  return expiradas.length > 0;
-}
+const KEY = "config";
 
 module.exports = async (req, res) => {
   try {
     if (req.method === "GET") {
-      let data = (await kv.hgetall(HASH_KEY)) || {};
-      const mudou = await cleanupExpired(data);
-      if (mudou) {
-        data = (await kv.hgetall(HASH_KEY)) || {};
-      }
+      const data = (await kv.hgetall(KEY)) || {};
       return res.status(200).json(data);
     }
 
     if (req.method === "POST") {
-      // Reserva pública: qualquer visitante pode reservar um número livre.
-      const { numero, cliente, whatsapp, tema } = req.body || {};
-      const num = parseInt(numero, 10);
-      const quantidade = await getQuantidade();
-
-      if (isNaN(num) || num < 0 || num >= quantidade || !cliente || !whatsapp) {
-        return res.status(400).json({ error: "Dados inválidos. Preencha nome e WhatsApp." });
-      }
-
-      const atual = await kv.hget(HASH_KEY, String(num));
-      if (isEntryActive(atual)) {
-        return res.status(409).json({ error: "Este número acabou de ser reservado por outra pessoa. Escolha outro." });
-      }
-
-      const entry = {
-        status: "reserved",
-        cliente: String(cliente).slice(0, 100),
-        whatsapp: String(whatsapp).replace(/\D/g, "").slice(0, 20),
-        numero: formatNumber(num),
-        tema: String(tema || "").slice(0, 60),
-        createdAt: Date.now(),
-        expiresAt: Date.now() + RESERVATION_TIME
-      };
-
-      await kv.hset(HASH_KEY, { [String(num)]: entry });
-      return res.status(200).json({ ok: true, entry });
-    }
-
-    if (req.method === "PUT") {
-      // Ações de marcar como pago ou liberar um número específico.
-      // Aceita a senha do organizador OU a senha da área de "Marcação".
-      const { numero, action, password } = req.body || {};
-
-      if (!isAuthorizedToMark(password)) {
-        return res.status(401).json({ error: "Senha inválida." });
-      }
-
-      const num = parseInt(numero, 10);
-      const quantidade = await getQuantidade();
-      if (isNaN(num) || num < 0 || num >= quantidade) {
-        return res.status(400).json({ error: "Número inválido." });
-      }
-
-      if (action === "sold") {
-        const atual = (await kv.hget(HASH_KEY, String(num))) || {};
-        const entry = { ...atual, status: "sold", numero: formatNumber(num), paidAt: Date.now() };
-        await kv.hset(HASH_KEY, { [String(num)]: entry });
-        return res.status(200).json({ ok: true });
-      }
-
-      if (action === "available") {
-        await kv.hdel(HASH_KEY, String(num));
-        return res.status(200).json({ ok: true });
-      }
-
-      return res.status(400).json({ error: "Ação inválida." });
-    }
-
-    if (req.method === "DELETE") {
-      // Limpa TODAS as reservas (usado pelo botão "Limpar todas as reservas").
-      const { password } = req.body || {};
+      const { titulo, subtitulo, regras, loteria, quantidade, grupoWhatsapp, password } = req.body || {};
 
       if (!checkAdminPassword(password)) {
         return res.status(401).json({ error: "Senha do organizador inválida." });
       }
 
-      await kv.del(HASH_KEY);
+      const atualizacoes = {};
+      if (titulo) atualizacoes.titulo = String(titulo).slice(0, 120);
+      if (subtitulo) atualizacoes.subtitulo = String(subtitulo).slice(0, 200);
+      if (regras) atualizacoes.regras = String(regras).slice(0, 4000);
+      if (loteria) atualizacoes.loteria = String(loteria).slice(0, 1000);
+      if (grupoWhatsapp) atualizacoes.grupoWhatsapp = String(grupoWhatsapp).slice(0, 300);
+
+      if (quantidade !== undefined && quantidade !== null && quantidade !== "") {
+        const qtd = parseInt(quantidade, 10);
+        if (isNaN(qtd) || qtd < 1 || qtd > 100) {
+          return res.status(400).json({ error: "A quantidade de números deve ser entre 1 e 100." });
+        }
+        atualizacoes.quantidade = String(qtd);
+      }
+
+      if (Object.keys(atualizacoes).length === 0) {
+        return res.status(400).json({ error: "Nada para salvar." });
+      }
+
+      await kv.hset(KEY, atualizacoes);
       return res.status(200).json({ ok: true });
     }
 
-    res.setHeader("Allow", "GET, POST, PUT, DELETE");
+    res.setHeader("Allow", "GET, POST");
     return res.status(405).json({ error: "Método não permitido." });
   } catch (err) {
     return res.status(500).json({ error: err.message || "Erro interno." });
