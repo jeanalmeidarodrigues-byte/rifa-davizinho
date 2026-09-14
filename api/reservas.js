@@ -2,7 +2,7 @@ const { kv } = require("./_lib/kv");
 const { checkAdminPassword } = require("./_lib/auth");
 
 const HASH_KEY = "reservas";
-const RESERVATION_TIME = 10 * 60 * 1000;
+const RESERVATION_TIME = 24 * 60 * 60 * 1000; // 24 horas
 
 function formatNumber(num) {
   return String(num).padStart(3, "0");
