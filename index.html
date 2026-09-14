@@ -1145,6 +1145,15 @@ footer {
       </div>
 
       <div class="admin-edit-section">
+        <h4>💬 Grupo do WhatsApp da rifa</h4>
+        <p class="admin-note" style="margin-top:0;">Cole aqui o link de convite do grupo (ex.: https://chat.whatsapp.com/XXXXXXXX). Quando um número for marcado como pago, o WhatsApp do comprador abre automaticamente com esse link, e o link também aparece para ele em "Meus números".</p>
+        <div class="admin-actions" style="flex-direction:column; align-items:flex-start; gap:10px;">
+          <input type="text" id="configGrupoInput" class="search-input" style="width:100%;" placeholder="https://chat.whatsapp.com/...">
+          <button class="btn-blue" onclick="salvarGrupo()">Salvar link do grupo</button>
+        </div>
+      </div>
+
+      <div class="admin-edit-section">
         <h4>📷 Foto de um número da rifa</h4>
         <div class="admin-actions">
           <input type="number" id="fotoNumeroInput" min="0" max="99" placeholder="Número (00-99)" class="search-input" style="min-width:140px;">
@@ -1559,6 +1568,10 @@ function updateAdminView() {
     if (quantidadeInput && document.activeElement !== quantidadeInput) {
       quantidadeInput.value = getTotalNumeros();
     }
+    const grupoInput = document.getElementById("configGrupoInput");
+    if (grupoInput && document.activeElement !== grupoInput) {
+      grupoInput.value = configCache.grupoWhatsapp || "";
+    }
   } else {
     locked.style.display = "block";
     unlocked.style.display = "none";
@@ -1633,6 +1646,7 @@ async function markNumberAsSoldMarcacao() {
       body: JSON.stringify({ numero: num, action: "sold", password: MARCACAO_PASSWORD })
     });
     await refreshReservas();
+    abrirConviteGrupo(num);
     alert(`Número ${formatNumber(num)} marcado como pago.`);
   } catch (err) {
     alert("Erro: " + err.message);
@@ -2032,6 +2046,7 @@ async function markNumberAsSold(numOverride) {
       body: JSON.stringify({ numero: num, action: "sold", password: senha })
     });
     await refreshReservas();
+    abrirConviteGrupo(num);
     if (numOverride === undefined || numOverride === null) alert(`Número ${formatNumber(num)} marcado como pago.`);
   } catch (err) {
     alert("Erro: " + err.message);
@@ -2177,6 +2192,17 @@ function showMeusNumeros() {
       })
       .join("");
     body.innerHTML = `<ul style="padding-left:18px;">${linhas}</ul>`;
+
+    const algumPago = lista.some(num => getNumberStatus(num) === "sold");
+    if (algumPago && configCache.grupoWhatsapp) {
+      body.innerHTML += `
+        <div class="notice" style="margin-top:14px;">
+          🎉 Seu pagamento foi confirmado! Entre no grupo oficial da rifa:
+          <br>
+          <a class="btn btn-green" style="margin-top:8px;display:inline-block;" href="${configCache.grupoWhatsapp}" target="_blank">Entrar no grupo do WhatsApp</a>
+        </div>
+      `;
+    }
   }
 
   document.getElementById("meusNumerosModal").classList.add("active");
@@ -2588,6 +2614,44 @@ async function salvarQuantidade() {
   } catch (err) {
     alert("Erro ao salvar: " + err.message);
   }
+}
+
+async function salvarGrupo() {
+  const senha = requireAdmin();
+  if (!senha) return;
+
+  const link = document.getElementById("configGrupoInput").value.trim();
+
+  if (!link) {
+    alert("Cole o link de convite do grupo do WhatsApp para salvar.");
+    return;
+  }
+
+  try {
+    await apiRequest("/api/config", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password: senha, grupoWhatsapp: link })
+    });
+    await refreshConfig();
+    alert("Link do grupo do WhatsApp atualizado!");
+  } catch (err) {
+    alert("Erro ao salvar: " + err.message);
+  }
+}
+
+// Abre o WhatsApp do comprador já com o convite do grupo, quando o número dele é marcado como pago.
+function abrirConviteGrupo(num) {
+  const item = reservationsCache[num];
+  const link = configCache.grupoWhatsapp;
+  if (!item || !item.whatsapp || !link) return;
+
+  const texto = encodeURIComponent(
+    `Parabéns! Seu número ${formatNumber(num)} foi confirmado como pago na Rifa Solidária do Davizinho! 🎉\n\n` +
+    `Entre no grupo oficial da rifa para acompanhar tudo:\n${link}`
+  );
+
+  window.open(`https://wa.me/${item.whatsapp}?text=${texto}`, "_blank");
 }
 
 // ---------- inicialização ----------
