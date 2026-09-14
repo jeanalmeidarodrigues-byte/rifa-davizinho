@@ -2,10 +2,28 @@ const { kv } = require("./_lib/kv");
 const { checkAdminPassword } = require("./_lib/auth");
 
 const HASH_KEY = "reservas";
+const CONFIG_KEY = "config";
 const RESERVATION_TIME = 24 * 60 * 60 * 1000; // 24 horas
+const DEFAULT_QUANTIDADE = 100;
+
+// Senha específica da área de "Marcação" (marcar número como pago / liberar número).
+// Não substitui a senha do organizador: é aceita apenas nas ações de marcar/liberar.
+const MARCACAO_PASSWORD = "DAVI563200";
+
+function isAuthorizedToMark(password) {
+  return checkAdminPassword(password) || password === MARCACAO_PASSWORD;
+}
+
+// Busca a quantidade de números da rifa configurada pelo organizador (padrão: 100 => 00 a 99).
+async function getQuantidade() {
+  const valor = await kv.hget(CONFIG_KEY, "quantidade");
+  const qtd = parseInt(valor, 10);
+  if (!qtd || qtd < 1 || qtd > 100) return DEFAULT_QUANTIDADE;
+  return qtd;
+}
 
 function formatNumber(num) {
-  return String(num).padStart(3, "0");
+  return String(num).padStart(2, "0");
 }
 
 // Um número é considerado "ocupado" (não disponível para nova reserva) se:
@@ -49,8 +67,9 @@ module.exports = async (req, res) => {
       // Reserva pública: qualquer visitante pode reservar um número livre.
       const { numero, cliente, whatsapp, tema } = req.body || {};
       const num = parseInt(numero, 10);
+      const quantidade = await getQuantidade();
 
-      if (!num || num < 1 || num > 100 || !cliente || !whatsapp) {
+      if (isNaN(num) || num < 0 || num >= quantidade || !cliente || !whatsapp) {
         return res.status(400).json({ error: "Dados inválidos. Preencha nome e WhatsApp." });
       }
 
@@ -74,15 +93,17 @@ module.exports = async (req, res) => {
     }
 
     if (req.method === "PUT") {
-      // Ações do organizador: marcar como pago ou liberar um número específico.
+      // Ações de marcar como pago ou liberar um número específico.
+      // Aceita a senha do organizador OU a senha da área de "Marcação".
       const { numero, action, password } = req.body || {};
 
-      if (!checkAdminPassword(password)) {
-        return res.status(401).json({ error: "Senha do organizador inválida." });
+      if (!isAuthorizedToMark(password)) {
+        return res.status(401).json({ error: "Senha inválida." });
       }
 
       const num = parseInt(numero, 10);
-      if (!num || num < 1 || num > 100) {
+      const quantidade = await getQuantidade();
+      if (isNaN(num) || num < 0 || num >= quantidade) {
         return res.status(400).json({ error: "Número inválido." });
       }
 
