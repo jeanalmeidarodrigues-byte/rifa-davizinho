@@ -953,8 +953,8 @@ footer {
       <div class="notice" id="loteriaNotice">
         🎲 <strong>Sorteio pela Loteria Federal:</strong> o resultado da rifa será apurado com base
         no resultado oficial da Loteria Federal, garantindo total transparência na conclusão da campanha.
-        Será considerado o número formado pelos <strong>dois primeiros dígitos do 1º prêmio</strong> da
-        Loteria Federal (ex.: se o 1º prêmio for 54.321, o número da sorte é <strong>54</strong>).
+        Será considerado o número formado pelos <strong>dois últimos dígitos do 1º prêmio</strong> da
+        Loteria Federal (ex.: se o 1º prêmio for 12.345, o número da sorte é <strong>45</strong>).
         Previsão de encerramento entre <strong>setembro e dezembro de 2026</strong>.
       </div>
 
@@ -1043,7 +1043,7 @@ footer {
 
   <div class="section-title">
     <h2>Escolha seu número</h2>
-    <p>Números de 001 a 100 com tema Marvel, DC e Futebol.</p>
+    <p>Números de 00 a 99 (quantidade ajustável pelo organizador) com tema Marvel, DC e Futebol.</p>
   </div>
 
   <div class="legend">
@@ -1136,9 +1136,18 @@ footer {
       </div>
 
       <div class="admin-edit-section">
+        <h4>🔢 Quantidade de números da rifa</h4>
+        <p class="admin-note" style="margin-top:0;">Define quantos números participam da rifa (de 1 a 100). Os números sempre começam em 00 e vão até a quantidade escolhida menos 1 (ex.: quantidade 100 = números de 00 a 99; quantidade 50 = números de 00 a 49).</p>
+        <div class="admin-actions" style="flex-direction:column; align-items:flex-start; gap:10px;">
+          <input type="number" id="configQuantidadeInput" class="search-input" style="width:100%;" min="1" max="100" placeholder="Ex: 100">
+          <button class="btn-blue" onclick="salvarQuantidade()">Salvar quantidade</button>
+        </div>
+      </div>
+
+      <div class="admin-edit-section">
         <h4>📷 Foto de um número da rifa</h4>
         <div class="admin-actions">
-          <input type="number" id="fotoNumeroInput" min="1" max="100" placeholder="Número (1-100)" class="search-input" style="min-width:140px;">
+          <input type="number" id="fotoNumeroInput" min="0" max="99" placeholder="Número (00-99)" class="search-input" style="min-width:140px;">
           <input type="file" id="fotoArquivoInput" accept="image/*" class="search-input" style="min-width:200px;">
           <button class="btn-gold" onclick="uploadFotoNumero()">Salvar foto</button>
           <button class="btn-dark" onclick="removerFotoNumero()">Remover foto</button>
@@ -1164,9 +1173,37 @@ footer {
       </div>
     </div>
   </details>
+
+  <details class="admin-panel" id="marcacaoPanel">
+    <summary>Marcação</summary>
+    <p style="margin-top:10px;color:#cbd5e1;">
+      Acesso rápido para marcar um número como pago ou liberar um número, usando uma senha própria
+      (diferente da senha completa do organizador).
+    </p>
+
+    <div id="marcacaoLockedView">
+      <p class="admin-locked">Área de marcação. Digite a senha para entrar.</p>
+      <div class="form-group">
+        <label for="marcacaoPassLogin">Senha de marcação</label>
+        <input type="password" id="marcacaoPassLogin" placeholder="Digite a senha de marcação">
+      </div>
+      <div class="admin-actions">
+        <button class="btn-blue" onclick="entrarComoMarcacao()">Entrar</button>
+      </div>
+    </div>
+
+    <div id="marcacaoUnlockedView" style="display:none;">
+      <div class="admin-actions">
+        <button class="btn-green" onclick="markNumberAsSoldMarcacao()">Marcar número</button>
+        <button class="btn-dark" onclick="markNumberAsAvailableMarcacao()">Liberar número</button>
+        <button class="btn-dark" onclick="lockMarcacao()">Sair da marcação</button>
+      </div>
+    </div>
+  </details>
+
   <div class="admin-note">
     Prefere trocar a foto de um número pelo computador? Também funciona: crie uma pasta "imagens" ao
-    lado deste arquivo com fotos chamadas 001.jpg, 002.jpg... 100.jpg — o site usa essas fotos quando
+    lado deste arquivo com fotos chamadas 00.jpg, 01.jpg... 99.jpg — o site usa essas fotos quando
     não houver uma foto salva pelo painel acima.
   </div>
 
@@ -1187,7 +1224,7 @@ footer {
       <li>O comprador deve informar nome, WhatsApp e número escolhido.</li>
       <li>A reserva feita pelo site tem prazo de <strong>24 horas</strong>. Se o PIX não for confirmado, o número poderá ser liberado.</li>
       <li>O controle final dos números pagos será feito pelo organizador.</li>
-      <li>O sorteio será realizado com base no resultado da <strong>Loteria Federal</strong>: será vencedor o número formado pelos <strong>dois primeiros dígitos do 1º prêmio</strong> sorteado (ex.: se o 1º prêmio for 54.321, o número da sorte é 54), garantindo total transparência, com conclusão prevista entre <strong>setembro e dezembro de 2026</strong>.</li>
+      <li>O sorteio será realizado com base no resultado da <strong>Loteria Federal</strong>: será vencedor o número formado pelos <strong>dois últimos dígitos do 1º prêmio</strong> sorteado (ex.: se o 1º prêmio for 12.345, o número da sorte é 45), garantindo total transparência, com conclusão prevista entre <strong>setembro e dezembro de 2026</strong>.</li>
       <li>O número sorteado será divulgado pelo organizador após o sorteio, aqui no site e no WhatsApp.</li>
       <li>Ao participar, o comprador declara estar ciente das regras e concorda com as condições da rifa.</li>
     </ul>
@@ -1289,13 +1326,26 @@ const DEFAULT_REGRAS_LINHAS = [
   "O comprador deve informar nome, WhatsApp e número escolhido.",
   "A reserva feita pelo site tem prazo de <strong>24 horas</strong>. Se o PIX não for confirmado, o número poderá ser liberado.",
   "O controle final dos números pagos será feito pelo organizador.",
-  "O sorteio será realizado com base no resultado da <strong>Loteria Federal</strong>: será vencedor o número formado pelos <strong>dois primeiros dígitos do 1º prêmio</strong> sorteado (ex.: se o 1º prêmio for 54.321, o número da sorte é 54), garantindo total transparência, com conclusão prevista entre <strong>setembro e dezembro de 2026</strong>.",
+  "O sorteio será realizado com base no resultado da <strong>Loteria Federal</strong>: será vencedor o número formado pelos <strong>dois últimos dígitos do 1º prêmio</strong> sorteado (ex.: se o 1º prêmio for 12.345, o número da sorte é 45), garantindo total transparência, com conclusão prevista entre <strong>setembro e dezembro de 2026</strong>.",
   "O número sorteado será divulgado pelo organizador após o sorteio, aqui no site e no WhatsApp.",
   "Ao participar, o comprador declara estar ciente das regras e concorda com as condições da rifa."
 ];
 const DEFAULT_REGRAS = DEFAULT_REGRAS_LINHAS.join("\n");
 
-const DEFAULT_LOTERIA = "🎲 <strong>Sorteio pela Loteria Federal:</strong> o resultado da rifa será apurado com base no resultado oficial da Loteria Federal, garantindo total transparência na conclusão da campanha. Será considerado o número formado pelos <strong>dois primeiros dígitos do 1º prêmio</strong> da Loteria Federal (ex.: se o 1º prêmio for 54.321, o número da sorte é <strong>54</strong>). Previsão de encerramento entre <strong>setembro e dezembro de 2026</strong>.";
+const DEFAULT_LOTERIA = "🎲 <strong>Sorteio pela Loteria Federal:</strong> o resultado da rifa será apurado com base no resultado oficial da Loteria Federal, garantindo total transparência na conclusão da campanha. Será considerado o número formado pelos <strong>dois últimos dígitos do 1º prêmio</strong> da Loteria Federal (ex.: se o 1º prêmio for 12.345, o número da sorte é <strong>45</strong>). Previsão de encerramento entre <strong>setembro e dezembro de 2026</strong>.";
+
+const DEFAULT_QUANTIDADE = 100;
+
+// Senha própria da área de "Marcação" (marcar número como pago / liberar número).
+const MARCACAO_SESSION_KEY = "davizinho_rifa_marcacao_ok";
+const MARCACAO_PASSWORD = "DAVI563200";
+
+// Quantidade de números ativa na rifa (00 até quantidade-1). Padrão: 100 (00 a 99).
+function getTotalNumeros() {
+  const qtd = parseInt(configCache.quantidade, 10);
+  if (!qtd || qtd < 1 || qtd > 100) return DEFAULT_QUANTIDADE;
+  return qtd;
+}
 
 let currentFilter = "all";
 
@@ -1328,13 +1378,13 @@ function escapeHtml(value) {
 }
 
 function getCategory(num) {
-  if (num <= 30) return "Marvel";
-  if (num <= 60) return "DC";
+  if (num < 30) return "Marvel";
+  if (num < 60) return "DC";
   return "Futebol";
 }
 
 function formatNumber(num) {
-  return String(num).padStart(3, "0");
+  return String(num).padStart(2, "0");
 }
 
 function getInitials(name) {
@@ -1421,6 +1471,7 @@ async function refreshPremio2() {
 async function refreshConfig() {
   configCache = await apiRequest("/api/config");
   renderConfig();
+  renderGrid();
 }
 
 async function refreshAll() {
@@ -1504,9 +1555,122 @@ function updateAdminView() {
     if (loteriaInput && document.activeElement !== loteriaInput) {
       loteriaInput.value = configCache.loteria || DEFAULT_LOTERIA;
     }
+    const quantidadeInput = document.getElementById("configQuantidadeInput");
+    if (quantidadeInput && document.activeElement !== quantidadeInput) {
+      quantidadeInput.value = getTotalNumeros();
+    }
   } else {
     locked.style.display = "block";
     unlocked.style.display = "none";
+  }
+}
+
+// ---------- área de marcação (senha própria) ----------
+
+function isMarcacaoUnlocked() {
+  return sessionStorage.getItem(MARCACAO_SESSION_KEY) === "1";
+}
+
+function entrarComoMarcacao() {
+  const input = document.getElementById("marcacaoPassLogin");
+  const senha = input.value.trim();
+
+  if (senha !== MARCACAO_PASSWORD) {
+    alert("Senha incorreta.");
+    return;
+  }
+
+  sessionStorage.setItem(MARCACAO_SESSION_KEY, "1");
+  input.value = "";
+  updateMarcacaoView();
+}
+
+function lockMarcacao() {
+  sessionStorage.removeItem(MARCACAO_SESSION_KEY);
+  updateMarcacaoView();
+}
+
+function updateMarcacaoView() {
+  const locked = document.getElementById("marcacaoLockedView");
+  const unlocked = document.getElementById("marcacaoUnlockedView");
+  if (!locked || !unlocked) return;
+
+  if (isMarcacaoUnlocked()) {
+    locked.style.display = "none";
+    unlocked.style.display = "block";
+  } else {
+    locked.style.display = "block";
+    unlocked.style.display = "none";
+  }
+}
+
+async function markNumberAsSoldMarcacao() {
+  if (!isMarcacaoUnlocked()) {
+    alert("Entre na área de marcação para usar esta função.");
+    return;
+  }
+
+  const total = getTotalNumeros();
+  const input = prompt(`Digite o número que deseja marcar como pago (00 a ${formatNumber(total - 1)}). Ex: 07`);
+  if (!input) return;
+
+  const num = parseInt(input, 10);
+
+  if (isNaN(num) || num < 0 || num >= total) {
+    alert("Número inválido.");
+    return;
+  }
+
+  if (num === getWinnerNumber()) {
+    alert(`O número ${formatNumber(num)} já está marcado como sorteado.`);
+    return;
+  }
+
+  try {
+    await apiRequest("/api/reservas", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ numero: num, action: "sold", password: MARCACAO_PASSWORD })
+    });
+    await refreshReservas();
+    alert(`Número ${formatNumber(num)} marcado como pago.`);
+  } catch (err) {
+    alert("Erro: " + err.message);
+  }
+}
+
+async function markNumberAsAvailableMarcacao() {
+  if (!isMarcacaoUnlocked()) {
+    alert("Entre na área de marcação para usar esta função.");
+    return;
+  }
+
+  const total = getTotalNumeros();
+  const input = prompt(`Digite o número que deseja liberar (00 a ${formatNumber(total - 1)}). Ex: 12`);
+  if (!input) return;
+
+  const num = parseInt(input, 10);
+
+  if (isNaN(num) || num < 0 || num >= total) {
+    alert("Número inválido.");
+    return;
+  }
+
+  if (num === getWinnerNumber()) {
+    alert(`O número ${formatNumber(num)} é o número sorteado e não pode ser liberado.`);
+    return;
+  }
+
+  try {
+    await apiRequest("/api/reservas", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ numero: num, action: "available", password: MARCACAO_PASSWORD })
+    });
+    await refreshReservas();
+    alert(`Número ${formatNumber(num)} liberado.`);
+  } catch (err) {
+    alert("Erro: " + err.message);
   }
 }
 
@@ -1585,9 +1749,10 @@ function renderGrid() {
   const meusNumeros = getMeusNumeros();
 
   let visibleCount = 0;
+  const total = getTotalNumeros();
 
-  personagens.forEach((p, index) => {
-    const num = index + 1;
+  personagens.slice(0, total).forEach((p, index) => {
+    const num = index;
     const status = getNumberStatus(num);
 
     if (currentFilter !== "all") {
@@ -1670,8 +1835,9 @@ function updateCounters() {
   let available = 0;
   let reserved = 0;
   let sold = 0;
+  const total = getTotalNumeros();
 
-  for (let i = 1; i <= 100; i++) {
+  for (let i = 0; i < total; i++) {
     const status = getNumberStatus(i);
 
     if (status === "available") available++;
@@ -1683,7 +1849,7 @@ function updateCounters() {
   document.getElementById("reservedCount").textContent = reserved;
   document.getElementById("soldCount").textContent = sold;
 
-  const progress = Math.round((sold / 100) * 100);
+  const progress = total > 0 ? Math.round((sold / total) * 100) : 0;
   document.getElementById("progressText").textContent = progress + "%";
   document.getElementById("progressBar").style.width = progress + "%";
 }
@@ -1840,13 +2006,16 @@ async function markNumberAsSold(numOverride) {
   const senha = requireAdmin();
   if (!senha) return;
 
-  const input = numOverride || prompt("Digite o número que deseja marcar como pago. Ex: 70");
+  const total = getTotalNumeros();
+  const input = (numOverride !== undefined && numOverride !== null)
+    ? numOverride
+    : prompt(`Digite o número que deseja marcar como pago (00 a ${formatNumber(total - 1)}). Ex: 07`);
 
-  if (!input) return;
+  if (input === null || input === undefined || input === "") return;
 
   const num = parseInt(input, 10);
 
-  if (isNaN(num) || num < 1 || num > 100) {
+  if (isNaN(num) || num < 0 || num >= total) {
     alert("Número inválido.");
     return;
   }
@@ -1863,7 +2032,7 @@ async function markNumberAsSold(numOverride) {
       body: JSON.stringify({ numero: num, action: "sold", password: senha })
     });
     await refreshReservas();
-    if (!numOverride) alert(`Número ${formatNumber(num)} marcado como pago.`);
+    if (numOverride === undefined || numOverride === null) alert(`Número ${formatNumber(num)} marcado como pago.`);
   } catch (err) {
     alert("Erro: " + err.message);
   }
@@ -1873,13 +2042,16 @@ async function markNumberAsAvailable(numOverride) {
   const senha = requireAdmin();
   if (!senha) return;
 
-  const input = numOverride || prompt("Digite o número que deseja liberar. Ex: 25");
+  const total = getTotalNumeros();
+  const input = (numOverride !== undefined && numOverride !== null)
+    ? numOverride
+    : prompt(`Digite o número que deseja liberar (00 a ${formatNumber(total - 1)}). Ex: 12`);
 
-  if (!input) return;
+  if (input === null || input === undefined || input === "") return;
 
   const num = parseInt(input, 10);
 
-  if (isNaN(num) || num < 1 || num > 100) {
+  if (isNaN(num) || num < 0 || num >= total) {
     alert("Número inválido.");
     return;
   }
@@ -1896,7 +2068,7 @@ async function markNumberAsAvailable(numOverride) {
       body: JSON.stringify({ numero: num, action: "available", password: senha })
     });
     await refreshReservas();
-    if (!numOverride) alert(`Número ${formatNumber(num)} liberado.`);
+    if (numOverride === undefined || numOverride === null) alert(`Número ${formatNumber(num)} liberado.`);
   } catch (err) {
     alert("Erro: " + err.message);
   }
@@ -1906,10 +2078,11 @@ async function sortearVencedor() {
   const senha = requireAdmin();
   if (!senha) return;
 
+  const total = getTotalNumeros();
   const atual = getWinnerNumber();
   const input = prompt(
-    "Digite o número sorteado (1 a 100). Deixe em branco e confirme para remover o sorteio atual.",
-    atual ? formatNumber(atual) : ""
+    `Digite o número sorteado (00 a ${formatNumber(total - 1)}). Deixe em branco e confirme para remover o sorteio atual.`,
+    (atual !== null && atual !== undefined) ? formatNumber(atual) : ""
   );
 
   if (input === null) return;
@@ -1930,7 +2103,7 @@ async function sortearVencedor() {
 
     const num = parseInt(trimmed, 10);
 
-    if (isNaN(num) || num < 1 || num > 100) {
+    if (isNaN(num) || num < 0 || num >= total) {
       alert("Número inválido.");
       return;
     }
@@ -2115,9 +2288,10 @@ async function uploadFotoNumero() {
 
   const num = parseInt(document.getElementById("fotoNumeroInput").value, 10);
   const arquivo = document.getElementById("fotoArquivoInput").files[0];
+  const total = getTotalNumeros();
 
-  if (isNaN(num) || num < 1 || num > 100) {
-    alert("Digite um número de 1 a 100.");
+  if (isNaN(num) || num < 0 || num >= total) {
+    alert(`Digite um número de 00 a ${formatNumber(total - 1)}.`);
     return;
   }
 
@@ -2145,9 +2319,10 @@ async function removerFotoNumero() {
   if (!senha) return;
 
   const num = parseInt(document.getElementById("fotoNumeroInput").value, 10);
+  const total = getTotalNumeros();
 
-  if (isNaN(num) || num < 1 || num > 100) {
-    alert("Digite um número de 1 a 100.");
+  if (isNaN(num) || num < 0 || num >= total) {
+    alert(`Digite um número de 00 a ${formatNumber(total - 1)}.`);
     return;
   }
 
@@ -2389,6 +2564,32 @@ async function salvarLoteria() {
   }
 }
 
+async function salvarQuantidade() {
+  const senha = requireAdmin();
+  if (!senha) return;
+
+  const valor = document.getElementById("configQuantidadeInput").value.trim();
+  const qtd = parseInt(valor, 10);
+
+  if (!qtd || qtd < 1 || qtd > 100) {
+    alert("Digite uma quantidade entre 1 e 100.");
+    return;
+  }
+
+  try {
+    await apiRequest("/api/config", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password: senha, quantidade: qtd })
+    });
+    await refreshConfig();
+    renderGrid();
+    alert("Quantidade de números atualizada!");
+  } catch (err) {
+    alert("Erro ao salvar: " + err.message);
+  }
+}
+
 // ---------- inicialização ----------
 
 document.getElementById("clientPhone").addEventListener("input", function() {
@@ -2410,6 +2611,7 @@ document.addEventListener("keydown", function(event) {
 setInterval(refreshAll, POLL_INTERVAL);
 
 updateAdminView();
+updateMarcacaoView();
 renderGrid();
 refreshAll();
 </script>
