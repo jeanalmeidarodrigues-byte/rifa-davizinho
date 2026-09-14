@@ -1,0 +1,12 @@
+{
+  "name": "rifa-davizinho",
+  "version": "2.0.1",
+  "private": true,
+  "description": "Site da Rifa Solidária do Davizinho, hospedado na Vercel com Vercel KV.",
+  "engines": {
+    "node": "20.x"
+  },
+  "dependencies": {
+    "@vercel/kv": "^2.0.0"
+  }
+}

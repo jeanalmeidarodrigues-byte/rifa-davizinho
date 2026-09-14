@@ -1,0 +1,2317 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Rifa Solidária – PC Gamer do Davizinho</title>
+
+<meta name="description" content="Participe da Rifa Solidária do Davizinho e ajude na conquista do PC Gamer. Cada número custa R$ 10,00.">
+<meta name="theme-color" content="#0b1020">
+
+<meta property="og:title" content="Rifa Solidária – PC Gamer do Davizinho">
+<meta property="og:description" content="Ajude o Davizinho a conquistar seu PC Gamer. Escolha seu número e participe por apenas R$ 10,00.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+
+<style>
+:root {
+  --bg: #0b1020;
+  --bg-soft: #111827;
+  --card: #151a2c;
+  --card-2: #1f2937;
+  --gold: #ffcc00;
+  --blue: #00c3ff;
+  --green: #22c55e;
+  --red: #ef4444;
+  --orange: #f97316;
+  --text: #ffffff;
+  --muted: #cbd5e1;
+  --border: rgba(255,255,255,0.12);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background:
+    radial-gradient(circle at top left, rgba(0,195,255,0.16), transparent 35%),
+    radial-gradient(circle at top right, rgba(255,204,0,0.14), transparent 35%),
+    var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.hero {
+  background: linear-gradient(135deg, rgba(21,26,44,0.96), rgba(17,24,39,0.96));
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 28px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+}
+
+.badge {
+  display: inline-block;
+  background: rgba(255,204,0,0.14);
+  color: var(--gold);
+  border: 1px solid rgba(255,204,0,0.35);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 14px;
+}
+
+h1 {
+  color: var(--gold);
+  font-size: clamp(30px, 5vw, 52px);
+  margin-bottom: 10px;
+  line-height: 1.05;
+}
+
+h2 {
+  color: var(--blue);
+  font-size: clamp(20px, 3vw, 30px);
+  margin-bottom: 14px;
+}
+
+.hero p {
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.5;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.page-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 18px 0 22px;
+}
+
+.tab-btn {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background: var(--gold);
+  color: #000;
+  border-color: var(--gold);
+}
+
+.featured-tag {
+  display: inline-block;
+  background: var(--gold);
+  color: #000;
+  font-weight: 900;
+  font-size: clamp(20px, 3.4vw, 32px);
+  padding: 12px 28px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 8px 24px rgba(255,204,0,0.35);
+}
+
+#siteTitulo.compact-title {
+  font-size: clamp(14px, 1.8vw, 18px) !important;
+  opacity: 0.55;
+  margin-bottom: 2px;
+  transition: all 0.2s ease;
+}
+
+#siteSubtitulo.compact-title {
+  font-size: clamp(12px, 1.5vw, 14px) !important;
+  opacity: 0.45;
+  margin-bottom: 6px;
+  transition: all 0.2s ease;
+}
+
+.prize-header-card {
+  background: rgba(0,195,255,0.07);
+  border: 1px solid rgba(0,195,255,0.3);
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 18px;
+}
+
+.prize-header-card h2 {
+  margin-bottom: 10px;
+}
+
+.prize-header-card p {
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.stat-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  text-align: center;
+}
+
+.stat-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.stat-card strong {
+  font-size: 17px;
+  color: #fff;
+}
+
+.objective-box {
+  background: rgba(0,195,255,0.08);
+  border: 1px solid rgba(0,195,255,0.25);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+.objective-box h2 {
+  text-align: center;
+}
+
+.objective-box p {
+  color: var(--muted);
+  line-height: 1.6;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.steps-box {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 18px;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 14px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.step-num {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: #000;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+
+.prize2-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.prize2-item {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.prize2-item img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+}
+
+.prize2-item.placeholder {
+  padding: 16px 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.prize2-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 8px;
+}
+
+.premio2-admin-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 10px 6px 0;
+}
+
+.premio2-admin-item img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+  margin: 24px 0;
+}
+
+.info-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px;
+  text-align: center;
+}
+
+.info-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 6px;
+}
+
+.info-card strong {
+  font-size: 24px;
+  color: #fff;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+button, .btn {
+  border: none;
+  border-radius: 12px;
+  padding: 12px 18px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+  transition: .2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+button:hover, .btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: #000;
+}
+
+.btn-blue {
+  background: var(--blue);
+  color: #001018;
+}
+
+.btn-green {
+  background: var(--green);
+  color: #001b08;
+}
+
+.btn-dark {
+  background: #273449;
+  color: #fff;
+  border: 1px solid var(--border);
+}
+
+.status-panel {
+  margin: 24px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+}
+
+.status-box {
+  background: rgba(21,26,44,0.92);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.status-box small {
+  color: var(--muted);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.status-box strong {
+  font-size: 28px;
+}
+
+.progress-wrap {
+  margin-top: 12px;
+  width: 100%;
+  background: rgba(255,255,255,0.08);
+  height: 12px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  transition: .3s ease;
+}
+
+.section-title {
+  text-align: center;
+  margin: 30px 0 10px;
+}
+
+.section-title h2 {
+  margin-bottom: 6px;
+}
+
+.section-title p {
+  color: var(--muted);
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 18px 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.dot.available { background: var(--blue); }
+.dot.reserved { background: var(--orange); }
+.dot.sold { background: var(--green); }
+.dot.winner { background: var(--gold); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.card {
+  background: linear-gradient(180deg, var(--card), #101624);
+  border: 1px solid var(--border);
+  padding: 14px;
+  border-radius: 16px;
+  text-align: center;
+  position: relative;
+  min-height: 155px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-number {
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--gold);
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin: 0 auto 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  border: 2px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.05);
+}
+
+.avatar-icon {
+  position: absolute;
+  inset: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: avatarFloat 2.6s ease-in-out infinite;
+}
+
+@keyframes avatarFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-3px) rotate(-2deg); }
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.card {
+  min-height: 195px;
+}
+
+.card-name {
+  font-size: 14px;
+  margin: 8px 0;
+  color: #fff;
+  min-height: 34px;
+}
+
+.card small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.card button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 9px;
+  font-size: 14px;
+}
+
+.card.reserved {
+  border-color: rgba(249,115,22,0.55);
+  background: linear-gradient(180deg, rgba(249,115,22,0.18), #101624);
+}
+
+.card.sold {
+  border-color: rgba(34,197,94,0.55);
+  background: linear-gradient(180deg, rgba(34,197,94,0.18), #101624);
+}
+
+.card.winner {
+  border: 2px solid var(--gold);
+  animation: winnerGlow 1.8s infinite ease-in-out;
+  background: linear-gradient(180deg, rgba(255,204,0,0.24), #171306);
+}
+
+@keyframes winnerGlow {
+  0%, 100% { box-shadow: 0 0 12px rgba(255,204,0,0.45); }
+  50% { box-shadow: 0 0 28px rgba(255,204,0,0.95); }
+}
+
+.label {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 10px;
+  padding: 4px 7px;
+  border-radius: 999px;
+  font-weight: bold;
+}
+
+.label.available {
+  background: rgba(0,195,255,0.18);
+  color: var(--blue);
+}
+
+.label.reserved {
+  background: rgba(249,115,22,0.18);
+  color: var(--orange);
+}
+
+.label.sold {
+  background: rgba(34,197,94,0.18);
+  color: var(--green);
+}
+
+.label.winner {
+  background: var(--gold);
+  color: #000;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.82);
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+  padding: 20px;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: #101624;
+  border: 1px solid var(--border);
+  padding: 22px;
+  border-radius: 18px;
+  max-width: 620px;
+  width: 100%;
+  max-height: 86vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+}
+
+.modal-content h3 {
+  color: var(--gold);
+  margin-bottom: 12px;
+  font-size: 24px;
+}
+
+.modal-content p, .modal-content li {
+  color: var(--muted);
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+
+.modal-content ul {
+  padding-left: 18px;
+}
+
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.form-group input {
+  width: 100%;
+  background: #0b1020;
+  color: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 13px;
+  font-size: 15px;
+  outline: none;
+}
+
+.form-group input:focus {
+  border-color: var(--blue);
+}
+
+.timer-box {
+  margin-top: 12px;
+  background: rgba(249,115,22,0.12);
+  border: 1px solid rgba(249,115,22,0.35);
+  color: #fed7aa;
+  padding: 12px;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.notice {
+  background: rgba(0,195,255,0.10);
+  border: 1px solid rgba(0,195,255,0.25);
+  color: #bae6fd;
+  padding: 14px;
+  border-radius: 14px;
+  margin: 18px 0;
+  line-height: 1.5;
+}
+
+.admin-panel {
+  margin-top: 30px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.admin-panel summary {
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--gold);
+}
+
+.admin-actions {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.admin-locked {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.admin-edit-section {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--border);
+}
+
+.admin-edit-section h4 {
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.admin-note {
+  max-width: 900px;
+  margin: 10px auto 0;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+  padding: 0 16px;
+}
+
+.admin-table-wrap {
+  margin-top: 16px;
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 560px;
+}
+
+.admin-table th, .admin-table td {
+  text-align: left;
+  padding: 9px 8px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.admin-table th {
+  color: #fff;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.admin-table td.num {
+  color: var(--gold);
+  font-weight: bold;
+}
+
+.admin-table .mini-btn {
+  padding: 6px 9px;
+  font-size: 12px;
+  border-radius: 8px;
+  margin-right: 6px;
+}
+
+.admin-empty {
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin: 18px 0;
+}
+
+.search-input {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  color: #fff;
+  border-radius: 12px;
+  padding: 11px 14px;
+  font-size: 14px;
+  min-width: 220px;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: var(--blue);
+}
+
+.chip-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.chip {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.chip.active {
+  background: var(--blue);
+  color: #001018;
+  border-color: var(--blue);
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--muted);
+  padding: 30px 10px;
+  grid-column: 1 / -1;
+}
+
+.mine-tag {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: 10px;
+  padding: 4px 7px;
+  border-radius: 999px;
+  font-weight: bold;
+  background: var(--gold);
+  color: #000;
+}
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  margin: 28px 0 8px;
+  font-size: 14px;
+}
+
+@media (max-width: 520px) {
+  body {
+    padding: 12px;
+  }
+
+  .hero {
+    padding: 22px 16px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card {
+    min-height: 190px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  button, .btn {
+    width: 100%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <section class="hero">
+    <div class="badge">Rifa Solidária Oficial</div>
+
+    <h1 id="siteTitulo" class="compact-title">Rifa Solidária Davizinho</h1>
+    <h2 id="siteSubtitulo" class="compact-title">Participe e ajude a realizar esse sonho</h2>
+
+    <div class="page-tabs">
+      <button class="tab-btn" id="tabBtn1" onclick="showPage(1)">🎮 Página 1 — PC Gamer</button>
+      <button class="tab-btn active" id="tabBtn2" onclick="showPage(2)">⭐ Página 2 — Prêmio Principal</button>
+    </div>
+
+    <div id="page1Content" style="display:none;">
+      <div class="objective-box">
+        <div class="avatar" id="premio1AvatarWrap" style="width:92px;height:92px;margin:0 auto 12px;border-width:3px;">
+          <span class="avatar-icon" id="premio1AvatarIcon" style="animation:none;">
+            <svg viewBox="0 0 64 64" width="100%" height="100%">
+              <circle cx="32" cy="24" r="14" fill="#00c3ff"/>
+              <path d="M10 56c2-14 12-20 22-20s20 6 22 20" fill="#00c3ff"/>
+            </svg>
+          </span>
+          <img id="premio1Foto" style="display:none;" alt="Foto do Davi">
+        </div>
+        <h2 style="margin-bottom:8px;">🎯 Objetivo da campanha</h2>
+        <p id="premio1Historia">
+          O Davizinho sonha em ter um PC Gamer para estudar, fazer seus trabalhos escolares,
+          aprender programação e também se divertir com jogos educativos. Com a sua ajuda,
+          esse sonho pode virar realidade. 🚀
+        </p>
+      </div>
+
+      <div class="steps-box">
+        <h3 style="text-align:center; margin-bottom:10px;">Como participar em 3 passos</h3>
+        <div class="steps-grid">
+          <div class="step-item"><span class="step-num">1</span> Escolha um número disponível na lista abaixo</div>
+          <div class="step-item"><span class="step-num">2</span> Clique em "Reservar" e confirme pelo WhatsApp</div>
+          <div class="step-item"><span class="step-num">3</span> Faça o PIX e envie o comprovante para garantir seu número</div>
+        </div>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-card">
+          <span>Valor por número</span>
+          <strong>R$ 10,00</strong>
+        </div>
+
+        <div class="info-card">
+          <span>Chave PIX</span>
+          <strong id="pixText">+55 11 93389-3607</strong>
+        </div>
+
+        <div class="info-card">
+          <span>Organizador</span>
+          <strong>Davi</strong>
+        </div>
+
+        <div class="info-card">
+          <span>Número sorteado</span>
+          <strong id="winnerText">A definir</strong>
+        </div>
+      </div>
+
+      <div class="notice">
+        🎲 <strong>Sorteio pela Loteria Federal:</strong> o resultado da rifa será apurado com base
+        no resultado oficial da Loteria Federal, garantindo total transparência na conclusão da campanha.
+        Será considerado o número formado pelos <strong>dois primeiros dígitos do 1º prêmio</strong> da
+        Loteria Federal (ex.: se o 1º prêmio for 54.321, o número da sorte é <strong>54</strong>).
+        Previsão de encerramento entre <strong>setembro e dezembro de 2026</strong>.
+      </div>
+
+      <div class="actions">
+        <button class="btn-gold" onclick="copyPix()">Copiar chave PIX</button>
+        <a class="btn btn-green" href="https://wa.me/5511933893607" target="_blank">Falar com o Davi</a>
+        <button class="btn-blue" onclick="openRules()">Ver regras da rifa</button>
+        <button class="btn-dark" onclick="showMeusNumeros()">Meus números</button>
+        <button class="btn-dark" onclick="shareRifa()">Compartilhar</button>
+      </div>
+    </div>
+
+    <div id="page2Content">
+      <div class="featured-tag">⭐ Prêmio Principal</div>
+
+      <div class="prize-header-card">
+        <h2>🌊 Parque Aquático Magic City – Suzano/SP</h2>
+        <p>
+          O prêmio principal são <strong>2 (dois) ingressos</strong> para curtir um dia inesquecível no
+          <strong> maior parque aquático da região</strong>, com piscinas de ondas, toboáguas radicais,
+          rio lento, área kids e muito mais. Ideal para levar um acompanhante — família, casal ou amigo!
+        </p>
+      </div>
+
+      <div class="prize2-gallery" id="prize2Gallery"></div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span>📍 LOCALIZAÇÃO</span>
+          <strong>Suzano/SP</strong>
+        </div>
+
+        <div class="stat-card">
+          <span>🎢 ATRAÇÕES</span>
+          <strong>15+ brinquedos</strong>
+        </div>
+
+        <div class="stat-card">
+          <span>👨‍👩‍👧‍👦 PÚBLICO</span>
+          <strong>Todas as idades</strong>
+        </div>
+
+        <div class="stat-card">
+          <span>🎟️ PRÊMIO</span>
+          <strong>2 ingressos para o parque</strong>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a class="btn btn-blue" href="https://www.google.com/maps/search/?api=1&query=Estrada+do+Pavoeiro%2C+8870%2C+Suzano+-+SP%2C+08635-445" target="_blank">📍 Ver localização no mapa</a>
+        <button class="btn-gold" onclick="openPrizeRules()">Ver regras de resgate dos 2 ingressos</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="status-panel">
+    <div class="status-box">
+      <small>Números disponíveis</small>
+      <strong id="availableCount">100</strong>
+    </div>
+
+    <div class="status-box">
+      <small>Números reservados</small>
+      <strong id="reservedCount">0</strong>
+    </div>
+
+    <div class="status-box">
+      <small>Números confirmados</small>
+      <strong id="soldCount">0</strong>
+    </div>
+
+    <div class="status-box">
+      <small>Progresso da rifa</small>
+      <strong id="progressText">0%</strong>
+      <div class="progress-wrap">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="notice">
+    <strong>Importante:</strong> a reserva fica marcada neste aparelho por 10 minutos.
+    Para confirmar de verdade, envie o comprovante do PIX pelo WhatsApp do organizador.
+    O controle final dos números pagos deve ser validado pelo Davi.
+  </div>
+
+  <div class="section-title">
+    <h2>Escolha seu número</h2>
+    <p>Números de 001 a 100 com tema Marvel, DC e Futebol.</p>
+  </div>
+
+  <div class="legend">
+    <span><i class="dot available"></i> Disponível</span>
+    <span><i class="dot reserved"></i> Reservado</span>
+    <span><i class="dot sold"></i> Pago/confirmado</span>
+    <span><i class="dot winner"></i> Sorteado</span>
+  </div>
+
+  <div class="filter-bar">
+    <input type="text" id="searchInput" class="search-input" placeholder="Buscar por número ou personagem..." oninput="renderGrid()">
+    <div class="chip-group" id="filterChips">
+      <span class="chip active" data-filter="all" onclick="setFilter('all')">Todos</span>
+      <span class="chip" data-filter="available" onclick="setFilter('available')">Disponíveis</span>
+      <span class="chip" data-filter="reserved" onclick="setFilter('reserved')">Reservados</span>
+      <span class="chip" data-filter="sold" onclick="setFilter('sold')">Pagos</span>
+    </div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <details class="admin-panel" id="adminPanel">
+    <summary>Área do organizador</summary>
+    <p style="margin-top:10px;color:#cbd5e1;">
+      Acesso restrito ao Davi/organizador. Os dados alterados aqui valem para todos os visitantes, em tempo real.
+    </p>
+
+    <div id="adminLockedView">
+      <p class="admin-locked">Área restrita ao organizador. Digite a senha de 6 dígitos para entrar.</p>
+      <div class="form-group">
+        <label for="adminPassLogin">Senha do organizador</label>
+        <input type="password" id="adminPassLogin" placeholder="Digite a senha de 6 dígitos" maxlength="6" inputmode="numeric" pattern="[0-9]*">
+      </div>
+      <div class="admin-actions">
+        <button class="btn-blue" onclick="entrarComoOrganizador()">Entrar</button>
+      </div>
+    </div>
+
+    <div id="adminUnlockedView" style="display:none;">
+      <div class="admin-actions">
+        <button class="btn-green" onclick="markNumberAsSold()">Marcar número como pago</button>
+        <button class="btn-dark" onclick="markNumberAsAvailable()">Liberar número</button>
+        <button class="btn-gold" onclick="sortearVencedor()">Definir número sorteado</button>
+        <button class="btn-gold" onclick="exportReservations()">Exportar reservas (CSV)</button>
+        <button class="btn-dark" onclick="resetLocalData()">Limpar todas as reservas</button>
+        <button class="btn-dark" onclick="lockAdmin()">Sair do modo organizador</button>
+      </div>
+
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="adminTable">
+          <thead>
+            <tr>
+              <th>Nº</th>
+              <th>Status</th>
+              <th>Nome</th>
+              <th>WhatsApp</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="adminTableBody"></tbody>
+        </table>
+        <p class="admin-empty" id="adminEmpty" style="display:none;">Nenhuma reserva registrada ainda.</p>
+      </div>
+
+      <div class="admin-edit-section">
+        <h4>📝 Título do site</h4>
+        <div class="admin-actions" style="flex-direction:column; align-items:flex-start; gap:10px;">
+          <input type="text" id="configTituloInput" class="search-input" style="width:100%;" placeholder="Ex: Rifa Solidária Davizinho">
+          <input type="text" id="configSubtituloInput" class="search-input" style="width:100%;" placeholder="Ex: Participe e ajude a realizar esse sonho">
+          <button class="btn-blue" onclick="salvarConfig()">Salvar título</button>
+        </div>
+      </div>
+
+      <div class="admin-edit-section">
+        <h4>📷 Foto de um número da rifa</h4>
+        <div class="admin-actions">
+          <input type="number" id="fotoNumeroInput" min="1" max="100" placeholder="Número (1-100)" class="search-input" style="min-width:140px;">
+          <input type="file" id="fotoArquivoInput" accept="image/*" class="search-input" style="min-width:200px;">
+          <button class="btn-gold" onclick="uploadFotoNumero()">Salvar foto</button>
+          <button class="btn-dark" onclick="removerFotoNumero()">Remover foto</button>
+        </div>
+      </div>
+
+      <div class="admin-edit-section">
+        <h4>💙 Prêmio 1 — foto do Davi e história</h4>
+        <div class="admin-actions" style="flex-direction:column; align-items:flex-start; gap:10px;">
+          <input type="file" id="premio1FotoInput" accept="image/*" class="search-input">
+          <textarea id="premio1HistoriaInput" class="search-input" rows="4" style="width:100%; min-width:0;" placeholder="Escreva uma breve história para mostrar na página 1..."></textarea>
+          <button class="btn-blue" onclick="salvarPremio1()">Salvar prêmio 1</button>
+        </div>
+      </div>
+
+      <div class="admin-edit-section">
+        <h4>🎟️ Prêmio 2 — fotos do Parque Aquático</h4>
+        <div class="admin-actions">
+          <input type="file" id="premio2FotoInput" accept="image/*" class="search-input" style="min-width:200px;">
+          <button class="btn-blue" onclick="adicionarFotoPremio2()">Adicionar foto</button>
+        </div>
+        <div id="premio2AdminList" style="margin-top:10px;"></div>
+      </div>
+    </div>
+  </details>
+  <div class="admin-note">
+    Prefere trocar a foto de um número pelo computador? Também funciona: crie uma pasta "imagens" ao
+    lado deste arquivo com fotos chamadas 001.jpg, 002.jpg... 100.jpg — o site usa essas fotos quando
+    não houver uma foto salva pelo painel acima.
+  </div>
+
+  <footer>
+    Rifa Solidária – PC Gamer do Davizinho. Participação mediante confirmação do PIX.
+  </footer>
+
+</div>
+
+<div class="modal" id="rulesModal">
+  <div class="modal-content">
+    <h3>Regras da Rifa Solidária</h3>
+
+    <ul>
+      <li>Cada número da rifa custa <strong>R$ 10,00</strong>.</li>
+      <li>A participação só será confirmada após o envio do comprovante PIX para o WhatsApp do organizador.</li>
+      <li>A chave PIX oficial é <strong>+55 11 93389-3607</strong>, em nome de Davi.</li>
+      <li>O comprador deve informar nome, WhatsApp e número escolhido.</li>
+      <li>A reserva feita pelo site tem prazo de <strong>10 minutos</strong>. Se o PIX não for confirmado, o número poderá ser liberado.</li>
+      <li>O controle final dos números pagos será feito pelo organizador.</li>
+      <li>O sorteio será realizado com base no resultado da <strong>Loteria Federal</strong>: será vencedor o número formado pelos <strong>dois primeiros dígitos do 1º prêmio</strong> sorteado (ex.: se o 1º prêmio for 54.321, o número da sorte é 54), garantindo total transparência, com conclusão prevista entre <strong>setembro e dezembro de 2026</strong>.</li>
+      <li>O número sorteado será divulgado pelo organizador após o sorteio, aqui no site e no WhatsApp.</li>
+      <li>Ao participar, o comprador declara estar ciente das regras e concorda com as condições da rifa.</li>
+    </ul>
+
+    <div class="actions">
+      <button class="btn-gold" onclick="closeRules()">Entendi</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="prizeRulesModal">
+  <div class="modal-content">
+    <h3>🎟️ Regras de resgate do prêmio extra</h3>
+
+    <ul>
+      <li><strong>Reserva pelo organizador:</strong> a reserva dos <strong>2 ingressos</strong> é feita exclusivamente pelo organizador da rifa, após a confirmação oficial do ganhador.</li>
+      <li><strong>Escolha da data:</strong> o ganhador escolhe a data de uso a partir da 2ª semana após o sorteio, conforme disponibilidade do parque.</li>
+      <li><strong>Sem reagendamento:</strong> após a escolha da data e emissão da reserva, não é possível reagendar. Confirme com atenção antes de emitir.</li>
+      <li><strong>Envio de dados:</strong> o ganhador deve enviar todos os dados necessários para a emissão dos 2 ingressos. A falta de alguma informação pode adiar o processo.</li>
+      <li><strong>Entrega:</strong> após a reserva, os <strong>2 ingressos</strong> são enviados em formato QR Code pelo canal combinado.</li>
+      <li><strong>O que está incluso:</strong> o prêmio dá direito somente ao acesso ao parque para 2 pessoas (o ganhador e um acompanhante).</li>
+      <li><strong>Despesas não inclusas:</strong> transporte, alimentação, estacionamento, hospedagem ou demais custos são de responsabilidade do ganhador.</li>
+      <li>Ao participar, o comprador declara estar ciente e de acordo com todas as regras acima.</li>
+    </ul>
+
+    <div class="actions">
+      <button class="btn-gold" onclick="closePrizeRules()">Entendi</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="meusNumerosModal">
+  <div class="modal-content">
+    <h3>Meus números</h3>
+    <p>Números reservados a partir deste navegador/aparelho.</p>
+    <div id="meusNumerosBody"></div>
+    <div class="actions">
+      <button class="btn-gold" onclick="closeMeusNumeros()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="reserveModal">
+  <div class="modal-content">
+    <h3>Reservar número <span id="selectedNumberText"></span></h3>
+
+    <p>
+      Preencha seus dados para abrir o WhatsApp do organizador com a mensagem pronta.
+    </p>
+
+    <div class="form-group">
+      <label for="clientName">Seu nome</label>
+      <input type="text" id="clientName" placeholder="Digite seu nome completo">
+    </div>
+
+    <div class="form-group">
+      <label for="clientPhone">Seu WhatsApp</label>
+      <input type="tel" id="clientPhone" placeholder="Ex: 11999998888">
+    </div>
+
+    <div class="timer-box" id="timerBox" style="display:none;">
+      Reserva temporária ativa: <span id="timerText">10:00</span>
+    </div>
+
+    <div class="actions">
+      <button class="btn-green" onclick="confirmReservation()">Reservar e abrir WhatsApp</button>
+      <button class="btn-dark" onclick="closeReserveModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const PIX_KEY = "+55 11 93389-3607";
+const WHATSAPP_ORGANIZADOR = "5511933893607";
+const VALOR_NUMERO = "R$ 10,00";
+const RESERVATION_TIME = 10 * 60 * 1000;
+const POLL_INTERVAL = 4000;
+
+const ADMIN_SESSION_KEY = "davizinho_rifa_admin_ok";
+const ADMIN_PASSWORD_KEY = "davizinho_rifa_admin_pw";
+const MEUS_NUMEROS_KEY = "davizinho_meus_numeros";
+
+// Espelhos locais dos dados vindos da API (Vercel + KV), atualizados por polling.
+let reservationsCache = {};
+let winnerCache = null;
+let fotosCache = {};
+let premio1Cache = {};
+let premio2FotosCache = {};
+let configCache = {};
+
+const DEFAULT_HISTORIA = "O Davizinho sonha em ter um PC Gamer para estudar, fazer seus trabalhos escolares, aprender programação e também se divertir com jogos educativos. Com a sua ajuda, esse sonho pode virar realidade. 🚀";
+const DEFAULT_TITULO = "Rifa Solidária Davizinho";
+const DEFAULT_SUBTITULO = "Participe e ajude a realizar esse sonho";
+
+let currentFilter = "all";
+
+const personagens = [
+  "Homem de Ferro","Capitão América","Thor","Hulk","Pantera Negra","Homem-Aranha","Viúva Negra","Doutor Estranho","Wolverine","Deadpool",
+  "Homem-Formiga","Feiticeira Escarlate","Falcão","Soldado Invernal","Capitã Marvel","Gamora","Star-Lord","Rocket Raccoon","Groot","Nick Fury",
+  "Loki","Valquíria","Shuri","Okoye","Mantis","Heimdall","Professor X","Jean Grey","Ciclope","Tempestade",
+  "Batman","Superman","Mulher-Maravilha","Flash","Aquaman","Coringa","Arlequina","Robin","Lanterna Verde","Cyborg",
+  "Shazam","Lex Luthor","Caçadora","Batgirl","Supergirl","Ravena","Estelar","Besouro Azul","Mulher-Gato","Pinguim",
+  "Charada","Duas-Caras","Zatanna","Constantine","Senhor Destino","Nuclear","Lanterna Branco","Lanterna Vermelho","Lanterna Amarelo","Lanterna Azul",
+  "Neymar","Messi","Cristiano Ronaldo","Mbappé","Vinícius Jr","Haaland","Modric","De Bruyne","Salah","Lewandowski",
+  "Ronaldinho","Pelé","Maradona","Beckham","Ibrahimović","Casemiro","Alisson","Pogba","Kanté","Griezmann",
+  "Gabriel Jesus","Firmino","Raphinha","Rodrygo","Bruno Fernandes","João Félix","Phil Foden","Bellingham","Pedri","Gavi",
+  "Thiago Silva","Marquinhos","Éder Militão","Ederson","Courtois","Ter Stegen","Oblak","Neuer","Buffon","Rogério Ceni"
+];
+
+let selectedNumber = null;
+let selectedName = null;
+let timerInterval = null;
+
+// ---------- utilidades ----------
+
+function escapeHtml(value) {
+  return String(value == null ? "" : value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function getCategory(num) {
+  if (num <= 30) return "Marvel";
+  if (num <= 60) return "DC";
+  return "Futebol";
+}
+
+function formatNumber(num) {
+  return String(num).padStart(3, "0");
+}
+
+function getInitials(name) {
+  const partes = name.trim().split(/\s+/);
+  const letras = partes.length > 1 ? partes[0][0] + partes[1][0] : partes[0].slice(0, 2);
+  return letras.toUpperCase();
+}
+
+function nameColor(name) {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const hue = Math.abs(hash) % 360;
+  return `hsl(${hue}, 60%, 40%)`;
+}
+
+// Ícones "desenho animado" genéricos e originais (sem usar marcas/personagens de terceiros),
+// só para dar um toque divertido a cada categoria de número.
+function getAvatarSVG(category, color) {
+  if (category === "Marvel") {
+    return `<svg viewBox="0 0 64 64" width="100%" height="100%">
+      <path d="M6 28c5-13 18-19 26-19s21 6 26 19c-3 12-14 19-26 19S9 40 6 28z" fill="${color}"/>
+      <circle cx="23" cy="27" r="5" fill="#0b1020"/>
+      <circle cx="41" cy="27" r="5" fill="#0b1020"/>
+      <path d="M20 42c6 4 18 4 24 0" stroke="#0b1020" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </svg>`;
+  }
+
+  if (category === "DC") {
+    return `<svg viewBox="0 0 64 64" width="100%" height="100%">
+      <path d="M32 4 54 12 54 30C54 46 44 56 32 60 20 56 10 46 10 30L10 12Z" fill="${color}"/>
+      <polygon points="32,20 35,28 44,28 37,33 39,41 32,36 25,41 27,33 20,28 29,28" fill="#fff"/>
+    </svg>`;
+  }
+
+  return `<svg viewBox="0 0 64 64" width="100%" height="100%">
+    <circle cx="32" cy="32" r="26" fill="#fff"/>
+    <circle cx="32" cy="32" r="26" fill="none" stroke="${color}" stroke-width="5"/>
+    <polygon points="32,16 39,21 36,29 28,29 25,21" fill="#111"/>
+    <path d="M32 29 20 24 M32 29 44 24 M32 29 28 44 M32 29 36 44" stroke="#111" stroke-width="2" fill="none"/>
+  </svg>`;
+}
+
+// ---------- comunicação com a API (Vercel Functions + KV) ----------
+
+async function apiRequest(url, options) {
+  const resp = await fetch(url, options);
+  let data = {};
+  try { data = await resp.json(); } catch (e) {}
+  if (!resp.ok) {
+    throw new Error(data.error || "Não foi possível completar a operação.");
+  }
+  return data;
+}
+
+async function refreshReservas() {
+  reservationsCache = await apiRequest("/api/reservas");
+  renderGrid();
+}
+
+async function refreshVencedor() {
+  const data = await apiRequest("/api/vencedor");
+  winnerCache = data.vencedor;
+  renderGrid();
+}
+
+async function refreshFotos() {
+  fotosCache = await apiRequest("/api/fotos");
+  renderGrid();
+}
+
+async function refreshPremio1() {
+  premio1Cache = await apiRequest("/api/premio1");
+  renderPremio1();
+}
+
+async function refreshPremio2() {
+  premio2FotosCache = await apiRequest("/api/premio2fotos");
+  renderPremio2Fotos();
+  renderPremio2AdminList();
+}
+
+async function refreshConfig() {
+  configCache = await apiRequest("/api/config");
+  renderConfig();
+}
+
+async function refreshAll() {
+  try {
+    await Promise.all([
+      refreshReservas(),
+      refreshVencedor(),
+      refreshFotos(),
+      refreshPremio1(),
+      refreshPremio2(),
+      refreshConfig()
+    ]);
+  } catch (err) {
+    console.error("Erro ao atualizar dados da rifa:", err);
+  }
+}
+
+// ---------- área do organizador ----------
+
+function isAdminUnlocked() {
+  return sessionStorage.getItem(ADMIN_SESSION_KEY) === "1" && !!sessionStorage.getItem(ADMIN_PASSWORD_KEY);
+}
+
+function getAdminPassword() {
+  return sessionStorage.getItem(ADMIN_PASSWORD_KEY) || "";
+}
+
+function requireAdmin() {
+  if (!isAdminUnlocked()) {
+    alert("Entre como organizador para usar esta função.");
+    return false;
+  }
+  return getAdminPassword();
+}
+
+async function entrarComoOrganizador() {
+  const input = document.getElementById("adminPassLogin");
+  const senha = input.value.trim();
+
+  if (!/^\d{6}$/.test(senha)) {
+    alert("Digite a senha de 6 dígitos do organizador.");
+    return;
+  }
+
+  try {
+    await apiRequest("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password: senha })
+    });
+    sessionStorage.setItem(ADMIN_SESSION_KEY, "1");
+    sessionStorage.setItem(ADMIN_PASSWORD_KEY, senha);
+    input.value = "";
+    updateAdminView();
+  } catch (err) {
+    alert("Senha incorreta.");
+  }
+}
+
+function lockAdmin() {
+  sessionStorage.removeItem(ADMIN_SESSION_KEY);
+  sessionStorage.removeItem(ADMIN_PASSWORD_KEY);
+  updateAdminView();
+}
+
+function updateAdminView() {
+  const locked = document.getElementById("adminLockedView");
+  const unlocked = document.getElementById("adminUnlockedView");
+  if (!locked || !unlocked) return;
+
+  if (isAdminUnlocked()) {
+    locked.style.display = "none";
+    unlocked.style.display = "block";
+    renderAdminTable();
+  } else {
+    locked.style.display = "block";
+    unlocked.style.display = "none";
+  }
+}
+
+// ---------- status dos números ----------
+
+function getReservations() {
+  return reservationsCache;
+}
+
+function getWinnerNumber() {
+  return winnerCache;
+}
+
+function getMeusNumeros() {
+  const raw = localStorage.getItem(MEUS_NUMEROS_KEY);
+  return raw ? JSON.parse(raw) : [];
+}
+
+function addMeuNumero(num) {
+  const lista = getMeusNumeros();
+  if (!lista.includes(num)) {
+    lista.push(num);
+    localStorage.setItem(MEUS_NUMEROS_KEY, JSON.stringify(lista));
+  }
+}
+
+function getNumberStatus(num) {
+  if (num === getWinnerNumber()) return "winner";
+
+  const data = getReservations();
+  const item = data[num];
+
+  if (!item) return "available";
+
+  if (item.status === "reserved" && item.expiresAt && Date.now() > item.expiresAt) {
+    return "available";
+  }
+
+  return item.status || "available";
+}
+
+function setFilter(filter) {
+  currentFilter = filter;
+  document.querySelectorAll("#filterChips .chip").forEach(chip => {
+    chip.classList.toggle("active", chip.dataset.filter === filter);
+  });
+  renderGrid();
+}
+
+// ---------- render ----------
+
+function renderConfig() {
+  const titulo = document.getElementById("siteTitulo");
+  const subtitulo = document.getElementById("siteSubtitulo");
+  if (titulo) titulo.textContent = configCache.titulo || DEFAULT_TITULO;
+  if (subtitulo) subtitulo.textContent = configCache.subtitulo || DEFAULT_SUBTITULO;
+}
+
+function renderGrid() {
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+
+  const searchInput = document.getElementById("searchInput");
+  const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : "";
+  const meusNumeros = getMeusNumeros();
+
+  let visibleCount = 0;
+
+  personagens.forEach((p, index) => {
+    const num = index + 1;
+    const status = getNumberStatus(num);
+
+    if (currentFilter !== "all") {
+      if (currentFilter === "sold" && status !== "sold" && status !== "winner") return;
+      if (currentFilter !== "sold" && status !== currentFilter) return;
+    }
+
+    if (searchTerm) {
+      const matchesNumber = formatNumber(num).includes(searchTerm) || String(num).includes(searchTerm);
+      const matchesName = p.toLowerCase().includes(searchTerm);
+      if (!matchesNumber && !matchesName) return;
+    }
+
+    visibleCount++;
+
+    let label = "Disponível";
+    let buttonText = "Reservar";
+    let disabled = false;
+
+    if (status === "reserved") {
+      label = "Reservado";
+      buttonText = "Reservado";
+      disabled = true;
+    }
+
+    if (status === "sold") {
+      label = "Pago";
+      buttonText = "Indisponível";
+      disabled = true;
+    }
+
+    if (status === "winner") {
+      label = "Sorteado";
+      buttonText = "Número sorteado";
+      disabled = true;
+    }
+
+    const card = document.createElement("div");
+    card.className = `card ${status}`;
+    card.innerHTML = `
+      <span class="label ${status}">${label}</span>
+      ${meusNumeros.includes(num) ? '<span class="mine-tag">Meu</span>' : ""}
+      <div>
+        <div class="avatar" style="background:${nameColor(p)}22">
+          <span class="avatar-icon">${getAvatarSVG(getCategory(num), nameColor(p))}</span>
+          <img src="${fotosCache[num] || ("imagens/" + formatNumber(num) + ".jpg")}" alt="${escapeHtml(p)}" loading="lazy" onerror="this.style.display='none'">
+        </div>
+        <div class="card-number">${formatNumber(num)}</div>
+        <div class="card-name">${escapeHtml(p)}</div>
+        <small>${getCategory(num)}</small>
+      </div>
+      <button class="${disabled ? "btn-dark" : "btn-blue"}" ${disabled ? "disabled" : ""} onclick="openReserveModal(${num}, '${p.replace(/'/g, "\\'")}')">
+        ${buttonText}
+      </button>
+    `;
+
+    grid.appendChild(card);
+  });
+
+  if (visibleCount === 0) {
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.textContent = "Nenhum número encontrado com esse filtro/busca.";
+    grid.appendChild(empty);
+  }
+
+  updateCounters();
+  updateWinnerCard();
+  if (isAdminUnlocked()) renderAdminTable();
+}
+
+function updateWinnerCard() {
+  const el = document.getElementById("winnerText");
+  if (!el) return;
+  const winner = getWinnerNumber();
+  el.textContent = winner ? formatNumber(winner) : "A definir";
+}
+
+function updateCounters() {
+  let available = 0;
+  let reserved = 0;
+  let sold = 0;
+
+  for (let i = 1; i <= 100; i++) {
+    const status = getNumberStatus(i);
+
+    if (status === "available") available++;
+    if (status === "reserved") reserved++;
+    if (status === "sold" || status === "winner") sold++;
+  }
+
+  document.getElementById("availableCount").textContent = available;
+  document.getElementById("reservedCount").textContent = reserved;
+  document.getElementById("soldCount").textContent = sold;
+
+  const progress = Math.round((sold / 100) * 100);
+  document.getElementById("progressText").textContent = progress + "%";
+  document.getElementById("progressBar").style.width = progress + "%";
+}
+
+// ---------- reserva ----------
+
+function openReserveModal(num, name) {
+  selectedNumber = num;
+  selectedName = name;
+
+  document.getElementById("selectedNumberText").textContent = formatNumber(num);
+  document.getElementById("clientName").value = "";
+  document.getElementById("clientPhone").value = "";
+  document.getElementById("timerBox").style.display = "none";
+
+  document.getElementById("reserveModal").classList.add("active");
+}
+
+function closeReserveModal() {
+  document.getElementById("reserveModal").classList.remove("active");
+  selectedNumber = null;
+  selectedName = null;
+}
+
+async function confirmReservation() {
+  const cliente = document.getElementById("clientName").value.trim();
+  const whats = document.getElementById("clientPhone").value.replace(/\D/g, "");
+
+  if (!cliente || !whats) {
+    alert("Preencha seu nome e WhatsApp para continuar.");
+    return;
+  }
+
+  if (whats.length < 10 || whats.length > 13) {
+    alert("Digite um WhatsApp válido, com DDD.");
+    return;
+  }
+
+  const status = getNumberStatus(selectedNumber);
+
+  if (status !== "available") {
+    alert("Este número não está mais disponível.");
+    closeReserveModal();
+    renderGrid();
+    return;
+  }
+
+  const numeroSelecionado = selectedNumber;
+  const temaSelecionado = selectedName;
+
+  try {
+    await apiRequest("/api/reservas", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ numero: numeroSelecionado, cliente, whatsapp: whats, tema: temaSelecionado })
+    });
+  } catch (err) {
+    alert(err.message || "Este número acabou de ser reservado por outra pessoa. Escolha outro.");
+    await refreshReservas();
+    return;
+  }
+
+  addMeuNumero(numeroSelecionado);
+  await refreshReservas();
+
+  const texto = encodeURIComponent(
+    `Olá! Quero confirmar minha participação na Rifa Solidária do Davizinho.\n\n` +
+    `Número escolhido: ${formatNumber(numeroSelecionado)}\n` +
+    `Tema do número: ${temaSelecionado}\n` +
+    `Nome: ${cliente}\n` +
+    `WhatsApp: ${whats}\n\n` +
+    `Valor: ${VALOR_NUMERO}\n` +
+    `Chave PIX: ${PIX_KEY}\n\n` +
+    `Vou enviar o comprovante do PIX para confirmar minha participação.`
+  );
+
+  window.open(`https://wa.me/${WHATSAPP_ORGANIZADOR}?text=${texto}`, "_blank");
+
+  document.getElementById("timerBox").style.display = "block";
+  startTimer(numeroSelecionado);
+
+  setTimeout(() => {
+    closeReserveModal();
+  }, 900);
+}
+
+function startTimer(num) {
+  clearInterval(timerInterval);
+
+  const data = getReservations();
+  const item = data[num];
+
+  if (!item || !item.expiresAt) return;
+
+  timerInterval = setInterval(() => {
+    const remaining = item.expiresAt - Date.now();
+
+    if (remaining <= 0) {
+      clearInterval(timerInterval);
+      const timerText = document.getElementById("timerText");
+      if (timerText) timerText.textContent = "00:00";
+      renderGrid();
+      return;
+    }
+
+    const minutes = Math.floor(remaining / 60000);
+    const seconds = Math.floor((remaining % 60000) / 1000);
+
+    const timerText = document.getElementById("timerText");
+    if (timerText) {
+      timerText.textContent = String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+    }
+  }, 1000);
+}
+
+// ---------- ações gerais ----------
+
+function copyPix() {
+  navigator.clipboard.writeText(PIX_KEY).then(() => {
+    alert("Chave PIX copiada: " + PIX_KEY);
+  }).catch(() => {
+    alert("Chave PIX: " + PIX_KEY);
+  });
+}
+
+function openRules() {
+  document.getElementById("rulesModal").classList.add("active");
+}
+
+function closeRules() {
+  document.getElementById("rulesModal").classList.remove("active");
+}
+
+function openPrizeRules() {
+  document.getElementById("prizeRulesModal").classList.add("active");
+}
+
+function closePrizeRules() {
+  document.getElementById("prizeRulesModal").classList.remove("active");
+}
+
+function showPage(n) {
+  document.getElementById("page1Content").style.display = n === 1 ? "block" : "none";
+  document.getElementById("page2Content").style.display = n === 2 ? "block" : "none";
+  document.getElementById("tabBtn1").classList.toggle("active", n === 1);
+  document.getElementById("tabBtn2").classList.toggle("active", n === 2);
+  document.getElementById("siteTitulo").classList.toggle("compact-title", n === 2);
+  document.getElementById("siteSubtitulo").classList.toggle("compact-title", n === 2);
+}
+
+// ---------- ações do organizador ----------
+
+async function markNumberAsSold(numOverride) {
+  const senha = requireAdmin();
+  if (!senha) return;
+
+  const input = numOverride || prompt("Digite o número que deseja marcar como pago. Ex: 70");
+
+  if (!input) return;
+
+  const num = parseInt(input, 10);
+
+  if (isNaN(num) || num < 1 || num > 100) {
+    alert("Número inválido.");
+    return;
+  }
+
+  if (num === getWinnerNumber()) {
+    alert(`O número ${formatNumber(num)} já está marcado como sorteado.`);
+    return;
+  }
+
+  try {
+    await apiRequest("/api/reservas", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ numero: num, action: "sold", password: senha })
+    });
+    await refreshReservas();
+    if (!numOverride) alert(`Número ${formatNumber(num)} marcado como pago.`);
+  } catch (err) {
+    alert("Erro: " + err.message);
+  }
+}
+
+async function markNumberAsAvailable(numOverride) {
+  const senha = requireAdmin();
+  if (!senha) return;
+
+  const input = numOverride || prompt("Digite o número que deseja liberar. Ex: 25");
+
+  if (!input) return;
+
+  const num = parseInt(input, 10);
+
+  if (isNaN(num) || num < 1 || num > 100) {
+    alert("Número inválido.");
+    return;
+  }
+
+  if (num === getWinnerNumber()) {
+    alert(`O número ${formatNumber(num)} é o número sorteado e não pode ser liberado.`);
+    return;
+  }
+
+  try {
+    await apiRequest("/api/reservas", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ numero: num, action: "available", password: senha })
+    });
+    await refreshReservas();
+    if (!numOverride) alert(`Número ${formatNumber(num)} liberado.`);
+  } catch (err) {
+    alert("Erro: " + err.message);
+  }
+}
+
+async function sortearVencedor() {
+  const senha = requireAdmin();
+  if (!senha) return;
+
+  const atual = getWinnerNumber();
+  const input = prompt(
+    "Digite o número sorteado (1 a 100). Deixe em branco e confirme para remover o sorteio atual.",
+    atual ? formatNumber(atual) : ""
+  );
+
+  if (input === null) return;
+
+  const trimmed = input.trim();
+
+  try {
+    if (trimmed === "") {
+      await apiRequest("/api/vencedor", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: senha })
+      });
+      await refreshVencedor();
+      alert("Número sorteado removido.");
+      return;
+    }
+
+    const num = parseInt(trimmed, 10);
+
+    if (isNaN(num) || num < 1 || num > 100) {
+      alert("Número inválido.");
+      return;
+    }
+
+    if (!confirm(`Confirmar o número ${formatNumber(num)} como vencedor da rifa?`)) return;
+
+    await apiRequest("/api/vencedor", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ numero: num, password: senha })
+    });
+    await refreshVencedor();
+    alert(`Número ${formatNumber(num)} definido como sorteado.`);
+  } catch (err) {
+    alert("Erro: " + err.message);
+  }
+}
+
+function renderAdminTable() {
+  const tbody = document.getElementById("adminTableBody");
+  const empty = document.getElementById("adminEmpty");
+  if (!tbody) return;
+
+  const data = getReservations();
+  const nums = Object.keys(data)
+    .map(Number)
+    .filter(n => data[n] && data[n].status)
+    .sort((a, b) => a - b);
+
+  tbody.innerHTML = "";
+
+  if (nums.length === 0) {
+    if (empty) empty.style.display = "block";
+    return;
+  }
+
+  if (empty) empty.style.display = "none";
+
+  nums.forEach(num => {
+    const item = data[num];
+    const statusLabel = item.status === "reserved" ? "Reservado" : item.status === "sold" ? "Pago" : item.status;
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td class="num">${formatNumber(num)}</td>
+      <td>${escapeHtml(statusLabel)}</td>
+      <td>${escapeHtml(item.cliente || "-")}</td>
+      <td>${escapeHtml(item.whatsapp || "-")}</td>
+      <td>
+        ${item.status !== "sold" ? `<button class="btn-green mini-btn" onclick="markNumberAsSold(${num})">Confirmar pago</button>` : ""}
+        <button class="btn-dark mini-btn" onclick="markNumberAsAvailable(${num})">Liberar</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function showMeusNumeros() {
+  const lista = getMeusNumeros();
+  const body = document.getElementById("meusNumerosBody");
+
+  if (lista.length === 0) {
+    body.innerHTML = '<p>Você ainda não reservou nenhum número neste navegador.</p>';
+  } else {
+    const linhas = lista
+      .sort((a, b) => a - b)
+      .map(num => {
+        const status = getNumberStatus(num);
+        const label = status === "sold" ? "Pago" : status === "reserved" ? "Reservado" : status === "winner" ? "Sorteado" : "Disponível";
+        return `<li><strong>${formatNumber(num)}</strong> — ${escapeHtml(label)}</li>`;
+      })
+      .join("");
+    body.innerHTML = `<ul style="padding-left:18px;">${linhas}</ul>`;
+  }
+
+  document.getElementById("meusNumerosModal").classList.add("active");
+}
+
+function closeMeusNumeros() {
+  document.getElementById("meusNumerosModal").classList.remove("active");
+}
+
+function shareRifa() {
+  const url = window.location.href;
+  const texto = "Participe da Rifa Solidária do PC Gamer do Davizinho! Cada número custa R$ 10,00.";
+
+  if (navigator.share) {
+    navigator.share({ title: "Rifa Solidária – PC Gamer do Davizinho", text: texto, url }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(url).then(() => {
+      alert("Link da rifa copiado! Cole no WhatsApp ou nas redes para compartilhar.");
+    }).catch(() => {
+      alert("Link da rifa: " + url);
+    });
+  }
+}
+
+function exportReservations() {
+  if (!requireAdmin()) return;
+  const data = getReservations();
+  const linhas = [
+    ["Número", "Status", "Nome", "WhatsApp", "Tema", "Criado em", "Expira em"]
+  ];
+
+  Object.keys(data).sort((a,b) => Number(a) - Number(b)).forEach(num => {
+    const item = data[num];
+
+    linhas.push([
+      formatNumber(Number(num)),
+      item.status || "",
+      item.cliente || "",
+      item.whatsapp || "",
+      item.tema || "",
+      item.createdAt ? new Date(item.createdAt).toLocaleString("pt-BR") : "",
+      item.expiresAt ? new Date(item.expiresAt).toLocaleString("pt-BR") : ""
+    ]);
+  });
+
+  const csv = linhas.map(row =>
+    row.map(value => `"${String(value).replace(/"/g, '""')}"`).join(";")
+  ).join("\n");
+
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "reservas-rifa-davizinho.csv";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+
+  URL.revokeObjectURL(url);
+}
+
+async function resetLocalData() {
+  const senha = requireAdmin();
+  if (!senha) return;
+
+  const confirmacao = confirm("Tem certeza que deseja limpar TODAS as reservas (para todo mundo)? O número sorteado não será apagado.");
+
+  if (!confirmacao) return;
+
+  try {
+    await apiRequest("/api/reservas", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password: senha })
+    });
+    await refreshReservas();
+    alert("Reservas apagadas para todo mundo.");
+  } catch (err) {
+    alert("Erro ao limpar: " + err.message);
+  }
+}
+
+function resizeImageToDataURL(file, maxWidth) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("Não foi possível ler o arquivo."));
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error("Arquivo de imagem inválido."));
+      img.onload = () => {
+        const escala = Math.min(1, maxWidth / img.width);
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.round(img.width * escala);
+        canvas.height = Math.round(img.height * escala);
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL("image/jpeg", 0.75));
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function uploadFotoNumero() {
+  const senha = requireAdmin();
+  if (!senha) return;
+
+  const num = parseInt(document.getElementById("fotoNumeroInput").value, 10);
+  const arquivo = document.getElementById("fotoArquivoInput").files[0];
+
+  if (isNaN(num) || num < 1 || num > 100) {
+    alert("Digite um número de 1 a 100.");
+    return;
+  }
+
+  if (!arquivo) {
+    alert("Escolha uma imagem primeiro.");
+    return;
+  }
+
+  try {
+    const dataUrl = await resizeImageToDataURL(arquivo, 400);
+    await apiRequest("/api/fotos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ numero: num, dataUrl, password: senha })
+    });
+    await refreshFotos();
+    alert(`Foto do número ${formatNumber(num)} salva.`);
+  } catch (err) {
+    alert("Erro ao salvar a foto: " + err.message);
+  }
+}
+
+async function removerFotoNumero() {
+  const senha = requireAdmin();
+  if (!senha) return;
+
+  const num = parseInt(document.getElementById("fotoNumeroInput").value, 10);
+
+  if (isNaN(num) || num < 1 || num > 100) {
+    alert("Digite um número de 1 a 100.");
+    return;
+  }
+
+  try {
+    await apiRequest("/api/fotos", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ numero: num, password: senha })
+    });
+    await refreshFotos();
+    alert(`Foto do número ${formatNumber(num)} removida.`);
+  } catch (err) {
+    alert("Erro ao remover a foto: " + err.message);
+  }
+}
+
+function renderPremio1() {
+  const foto = document.getElementById("premio1Foto");
+  const historia = document.getElementById("premio1Historia");
+  const icone = document.getElementById("premio1AvatarIcon");
+  if (!foto || !historia) return;
+
+  if (premio1Cache.foto) {
+    foto.src = premio1Cache.foto;
+    foto.style.display = "block";
+    if (icone) icone.style.display = "none";
+  } else {
+    foto.style.display = "none";
+    if (icone) icone.style.display = "flex";
+  }
+
+  historia.textContent = premio1Cache.historia || DEFAULT_HISTORIA;
+}
+
+async function salvarPremio1() {
+  const senha = requireAdmin();
+  if (!senha) return;
+
+  const arquivo = document.getElementById("premio1FotoInput").files[0];
+  const historia = document.getElementById("premio1HistoriaInput").value.trim();
+
+  if (!arquivo && !historia) {
+    alert("Nada para salvar. Escolha uma foto e/ou escreva a história.");
+    return;
+  }
+
+  try {
+    const payload = { password: senha };
+    if (historia) payload.historia = historia;
+    if (arquivo) payload.foto = await resizeImageToDataURL(arquivo, 500);
+
+    await apiRequest("/api/premio1", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    await refreshPremio1();
+    alert("Prêmio 1 atualizado!");
+  } catch (err) {
+    alert("Erro ao salvar: " + err.message);
+  }
+}
+
+function getParquePlaceholders() {
+  return [
+    { label: "Tobogã", svg: `<svg viewBox="0 0 64 64" width="100%" height="100%"><path d="M8 52c8-4 12-16 24-24s24-6 24-6" stroke="#00c3ff" stroke-width="6" fill="none" stroke-linecap="round"/><circle cx="12" cy="50" r="5" fill="#ffd166"/></svg>` },
+    { label: "Piscina", svg: `<svg viewBox="0 0 64 64" width="100%" height="100%"><rect x="6" y="30" width="52" height="20" rx="4" fill="#00c3ff"/><path d="M6 40c6-4 10 4 16 0s10 4 16 0 10 4 16 0" stroke="#fff" stroke-width="2" fill="none"/></svg>` },
+    { label: "Sol de verão", svg: `<svg viewBox="0 0 64 64" width="100%" height="100%"><circle cx="32" cy="32" r="12" fill="#ffd166"/><g stroke="#ffd166" stroke-width="4" stroke-linecap="round"><line x1="32" y1="6" x2="32" y2="14"/><line x1="32" y1="50" x2="32" y2="58"/><line x1="6" y1="32" x2="14" y2="32"/><line x1="50" y1="32" x2="58" y2="32"/></g></svg>` },
+    { label: "Piscina de ondas", svg: `<svg viewBox="0 0 64 64" width="100%" height="100%"><rect x="6" y="22" width="52" height="30" rx="4" fill="#0099cc"/><path d="M6 30c6-5 10 5 16 0s10 5 16 0 10 5 16 0" stroke="#fff" stroke-width="2" fill="none"/><path d="M6 40c6-5 10 5 16 0s10 5 16 0 10 5 16 0" stroke="#fff" stroke-width="2" fill="none"/></svg>` },
+    { label: "Boia colorida", svg: `<svg viewBox="0 0 64 64" width="100%" height="100%"><circle cx="32" cy="32" r="22" fill="none" stroke="#ff6b6b" stroke-width="10" stroke-dasharray="10 8"/><circle cx="32" cy="32" r="10" fill="#00c3ff"/></svg>` },
+    { label: "Área kids", svg: `<svg viewBox="0 0 64 64" width="100%" height="100%"><rect x="10" y="36" width="44" height="16" rx="4" fill="#00c3ff"/><path d="M14 36 32 14 50 36Z" fill="#ffd166"/></svg>` }
+  ];
+}
+
+function renderPremio2Fotos() {
+  const gallery = document.getElementById("prize2Gallery");
+  if (!gallery) return;
+
+  const chaves = Object.keys(premio2FotosCache);
+  gallery.innerHTML = "";
+
+  if (chaves.length === 0) {
+    getParquePlaceholders().forEach(item => {
+      const div = document.createElement("div");
+      div.className = "prize2-item placeholder";
+      div.innerHTML = `<div class="prize2-icon">${item.svg}</div><span>${item.label}</span>`;
+      gallery.appendChild(div);
+    });
+    return;
+  }
+
+  chaves.forEach(chave => {
+    const div = document.createElement("div");
+    div.className = "prize2-item";
+    div.innerHTML = `<img src="${premio2FotosCache[chave]}" alt="Foto do parque aquático">`;
+    gallery.appendChild(div);
+  });
+}
+
+async function adicionarFotoPremio2() {
+  const senha = requireAdmin();
+  if (!senha) return;
+
+  const arquivo = document.getElementById("premio2FotoInput").files[0];
+
+  if (!arquivo) {
+    alert("Escolha uma imagem primeiro.");
+    return;
+  }
+
+  try {
+    const dataUrl = await resizeImageToDataURL(arquivo, 500);
+    await apiRequest("/api/premio2fotos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ dataUrl, password: senha })
+    });
+    document.getElementById("premio2FotoInput").value = "";
+    await refreshPremio2();
+    alert("Foto adicionada ao prêmio 2.");
+  } catch (err) {
+    alert("Erro ao salvar a foto: " + err.message);
+  }
+}
+
+async function removerFotoPremio2(chave) {
+  const senha = requireAdmin();
+  if (!senha) return;
+
+  try {
+    await apiRequest("/api/premio2fotos", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: chave, password: senha })
+    });
+    await refreshPremio2();
+  } catch (err) {
+    alert("Erro ao remover a foto: " + err.message);
+  }
+}
+
+function renderPremio2AdminList() {
+  const lista = document.getElementById("premio2AdminList");
+  if (!lista) return;
+
+  const chaves = Object.keys(premio2FotosCache);
+  lista.innerHTML = "";
+
+  if (chaves.length === 0) {
+    lista.innerHTML = '<p class="admin-empty">Nenhuma foto do parque cadastrada ainda.</p>';
+    return;
+  }
+
+  chaves.forEach(chave => {
+    const item = document.createElement("div");
+    item.className = "premio2-admin-item";
+    item.innerHTML = `
+      <img src="${premio2FotosCache[chave]}" alt="Foto do parque">
+      <button class="btn-dark mini-btn" onclick="removerFotoPremio2('${chave}')">Remover</button>
+    `;
+    lista.appendChild(item);
+  });
+}
+
+async function salvarConfig() {
+  const senha = requireAdmin();
+  if (!senha) return;
+
+  const titulo = document.getElementById("configTituloInput").value.trim();
+  const subtitulo = document.getElementById("configSubtituloInput").value.trim();
+
+  if (!titulo && !subtitulo) {
+    alert("Escreva um título e/ou subtítulo para salvar.");
+    return;
+  }
+
+  try {
+    const payload = { password: senha };
+    if (titulo) payload.titulo = titulo;
+    if (subtitulo) payload.subtitulo = subtitulo;
+
+    await apiRequest("/api/config", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    await refreshConfig();
+    alert("Título do site atualizado!");
+  } catch (err) {
+    alert("Erro ao salvar: " + err.message);
+  }
+}
+
+// ---------- inicialização ----------
+
+document.getElementById("clientPhone").addEventListener("input", function() {
+  this.value = this.value.replace(/\D/g, "");
+});
+
+document.addEventListener("click", function(event) {
+  if (event.target.classList.contains("modal")) {
+    event.target.classList.remove("active");
+  }
+});
+
+document.addEventListener("keydown", function(event) {
+  if (event.key === "Escape") {
+    document.querySelectorAll(".modal.active").forEach(m => m.classList.remove("active"));
+  }
+});
+
+setInterval(refreshAll, POLL_INTERVAL);
+
+updateAdminView();
+renderGrid();
+refreshAll();
+</script>
+
+</body>
+</html>
