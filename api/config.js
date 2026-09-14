@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
     }
 
     if (req.method === "POST") {
-      const { titulo, subtitulo, password } = req.body || {};
+      const { titulo, subtitulo, regras, loteria, password } = req.body || {};
 
       if (!checkAdminPassword(password)) {
         return res.status(401).json({ error: "Senha do organizador inválida." });
@@ -20,6 +20,8 @@ module.exports = async (req, res) => {
       const atualizacoes = {};
       if (titulo) atualizacoes.titulo = String(titulo).slice(0, 120);
       if (subtitulo) atualizacoes.subtitulo = String(subtitulo).slice(0, 200);
+      if (regras) atualizacoes.regras = String(regras).slice(0, 4000);
+      if (loteria) atualizacoes.loteria = String(loteria).slice(0, 1000);
 
       if (Object.keys(atualizacoes).length === 0) {
         return res.status(400).json({ error: "Nada para salvar." });
